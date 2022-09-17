@@ -1,11 +1,21 @@
 Package: strataR
 Title: Simulate Sedimentary Basins and Their Fossil Record
-Version: 0.0.1
+Version: 0.3.2
 Authors@R: 
     person("Steven", "Holland", , "stratum@uga.edu", role = c("aut", "cre"),
            comment = c(ORCID = "0000-0002-4527-9370"))
 Description: strataR simulates the sedimentary fill of basins, based on inputs of tectonic subsidence, eustasy, sedimentation, and basin geometry. Stratigraphic columns can be simulated from anywhere in the basin, along with their fossil record.
-License: GPL-3
+License: GPL (>= 3)
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.2.1
+Suggests: 
+    knitr,
+    rmarkdown
+VignetteBuilder: knitr
+Imports: 
+    graphics,
+    grDevices,
+    stats,
+    utils
+Depends: R (>= 3.5.0)

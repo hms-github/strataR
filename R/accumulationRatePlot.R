@@ -1,15 +1,20 @@
-#' Create a ternary plot
+#' @title Sediment Accumulation Rate Plot
 #'
-#' Creates a ternary plot from three variables that sum to 100%, such as petrographic data in geology. Specifies the labels for the three apexes of the triangle, whether a grid should be shown, and the spacing of the grid lines
+#' @description Cross-section of sedimentary basin showing the relative rates of sediment accumulation in nonmarine portions of the basin. 
 #'
-#' @param \code{TRUE}
+#' @details Relative rates of sediment accumulation are shown in gray scale, from white (lowest rates of accumulation) to black (highest rates). Rates are not indicated for marine portions of the basin, which is shown in uniform gray.
+#'
+#' @param basin an object of class [`basin`].
+#' @param setting a string, either "valley" or "interfluve".
+#' @param xlim,ylim Optional setting to set the range of the x-axis and y-axis that is 
+#'   displayed.
+#' @param ... Additional arguments to be passed to plot.
 #'
 #' @export
-#' 
-#' @return \code{TRUE}
 #'
 #' @examples
-#' ternaryPlot(myData, labels=("Q", "F", "L"))
+#' data(sedBasin)
+#' accumulationRatePlot(sedBasin, setting="valley")
 #'
 
 accumulationRatePlot <- function(basin, setting=c('valley', 'interfluve'), xlim=NULL, ylim=NULL, ...) {
@@ -32,7 +37,7 @@ accumulationRatePlot <- function(basin, setting=c('valley', 'interfluve'), xlim=
 	endIndex <- length(basin$timePoints)
 	endTime <- basin$timePoints[endIndex]
 	
-	marineColor <- gray(0.7)
+	marineColor <- grDevices::gray(0.7)
 	startSurface <- elevation[1, ] - deflection[1, ]
 	endSurface <- elevation[endIndex, ]
 	
@@ -57,7 +62,7 @@ accumulationRatePlot <- function(basin, setting=c('valley', 'interfluve'), xlim=
 
 	sedimentsY <- c(startSurface, rev(endSurface))
 	sedimentsX <- c(basin$positions, rev(basin$positions))
-	polygon(sedimentsX, sedimentsY, col=marineColor, lwd=0.5)
+	graphics::polygon(sedimentsX, sedimentsY, col=marineColor, lwd=0.5)
 	
 	# Part 2: plot non-marine accumulation rates
 	finalElevations <- matrix(0, nrow=nrow(elevation), ncol=ncol(elevation))
@@ -108,5 +113,5 @@ accumulationRatePlot <- function(basin, setting=c('valley', 'interfluve'), xlim=
 	vzNonmarineRescaled <- 1 - rank(vzNonmarine)/length(vzNonmarine)
 	
 	
-	points(vxNonmarine, vyNonmarine, col=gray(vzNonmarineRescaled), pch=16, cex=0.5, lwd=3)
+	graphics::points(vxNonmarine, vyNonmarine, col=grDevices::gray(vzNonmarineRescaled), pch=16, cex=0.5, lwd=3)
 }

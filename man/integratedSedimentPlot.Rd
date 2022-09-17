@@ -2,20 +2,21 @@
 % Please edit documentation in R/integratedSedimentPlot.R
 \name{integratedSedimentPlot}
 \alias{integratedSedimentPlot}
-\title{Create a ternary plot}
+\title{Integrated Sediment Plot}
 \usage{
 integratedSedimentPlot(basin)
 }
 \arguments{
-\item{\code{TRUE}}{}
-}
-\value{
-\code{TRUE}
+\item{basin}{an object of class \code{\link{basin}}.}
 }
 \description{
-Creates a ternary plot from three variables that sum to 100\%, such as petrographic data in geology. Specifies the labels for the three apexes of the triangle, whether a grid should be shown, and the spacing of the grid lines
+Plot of the total sediment deposited through time.
+}
+\details{
+Plot shows the actual volume of sediment deposited through time versus the targeted volume of sediment.
 }
 \examples{
-ternaryPlot(myData, labels=("Q", "F", "L"))
+data(sedBasin)
+integratedSedimentPlot(sedBasin)
 
 }

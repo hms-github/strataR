@@ -2,20 +2,21 @@
 % Please edit documentation in R/partitioningPlot.R
 \name{partitioningPlot}
 \alias{partitioningPlot}
-\title{Create a ternary plot}
+\title{Sediment Partitioning Plot}
 \usage{
 partitioningPlot(basin)
 }
 \arguments{
-\item{\code{TRUE}}{}
-}
-\value{
-\code{TRUE}
+\item{basin}{an object of class \code{\link{basin}}.}
 }
 \description{
-Creates a ternary plot from three variables that sum to 100\%, such as petrographic data in geology. Specifies the labels for the three apexes of the triangle, whether a grid should be shown, and the spacing of the grid lines
+Plot showing how sediment is partitioned into nonmarine and marine areas through time.
+}
+\details{
+Plots shows the volume of sediment deposited in nonmarine vs. marine areas through time, as a fraction of the total amount of sediment. As the shore transgresses and regresses, owing to subsidence, eustasy, and sediment supply, deposition may occur preferentially in nonmarine or marine areas.
 }
 \examples{
-ternaryPlot(myData, labels=("Q", "F", "L"))
+data(sedBasin)
+partitioningPlot(sedBasin)
 
 }

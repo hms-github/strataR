@@ -2,7 +2,7 @@
 % Please edit documentation in R/accumulationRatePlot.R
 \name{accumulationRatePlot}
 \alias{accumulationRatePlot}
-\title{Create a ternary plot}
+\title{Sediment Accumulation Rate Plot}
 \usage{
 accumulationRatePlot(
   basin,
@@ -13,15 +13,23 @@ accumulationRatePlot(
 )
 }
 \arguments{
-\item{\code{TRUE}}{}
-}
-\value{
-\code{TRUE}
+\item{basin}{an object of class \code{\link{basin}}.}
+
+\item{setting}{a string, either "valley" or "interfluve".}
+
+\item{xlim, ylim}{Optional setting to set the range of the x-axis and y-axis that is
+displayed.}
+
+\item{...}{Additional arguments to be passed to plot.}
 }
 \description{
-Creates a ternary plot from three variables that sum to 100\%, such as petrographic data in geology. Specifies the labels for the three apexes of the triangle, whether a grid should be shown, and the spacing of the grid lines
+Cross-section of sedimentary basin showing the relative rates of sediment accumulation in nonmarine portions of the basin.
+}
+\details{
+Relative rates of sediment accumulation are shown in gray scale, from white (lowest rates of accumulation) to black (highest rates). Rates are not indicated for marine portions of the basin, which is shown in uniform gray.
 }
 \examples{
-ternaryPlot(myData, labels=("Q", "F", "L"))
+data(sedBasin)
+accumulationRatePlot(sedBasin, setting="valley")
 
 }

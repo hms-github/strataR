@@ -1,0 +1,406 @@
+---
+title: "Introduction to strataR"
+author: "Steven M. Holland"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Introduction to strataR}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+strataR simulates the fill of sedimentary basins, stratigraphic columns from those basins, and the occurrence of fossil species in those columns.
+
+## Simulate a sedimentary basin
+
+A sedimentary basin is created in five steps. Basins are simulated with `basin()`, which requires inputs for the basin geometry, subsidence, eustasy, and sediment supply. These objects are created by the functions `geometry()`, `subsidence()`, `eustasy()`, and `sediment()`, which respectively make geometry, subsidence, eustasy, and sediment objects.
+
+```{r basinObjects, warning=FALSE, message=FALSE}
+library(strataR)
+
+geom <- geometry(fallLineY=150, shoreX=200, deltaWidth=100, 
+deltaToeY=-100, marginWidth=600, nonMarAlpha=0.5, 
+marineAlpha=2.0, duration=3.0, timeStep=0.01)
+
+subs <- subsidence(geometry=geom, startingLeft=0.0, 
+startingRight=20.0)
+
+eust <- eustasy(geometry=geom, period=1.5, amplitude=15, 
+phase='rising', shape=3)
+
+sedi <- sediment(geometry=geom, startingVolume=60)
+
+sedBasin <- basin(geometry=geom, subsidence=subs, eustasy=eust, 
+sediment=sedi)
+```
+
+Warnings about "bestShoreIndex too long - case 1" are common and you can ignore these. If you get many of these or something looks obviously wrong, contact the developer with the commands you used to generate the geometry, subsidence, eustasy, sediment, and basin objects.
+
+`basin()` simulates two dip-line cross-sections through the basin, one along a river ("valley") and one along an interfluve; its output is a basin object. If there is no sea-level fall in the simulation, these will be identical; however, if there is a sea-level fall, the river cross-section will reflect the incision that occurs, creating a valley, and the interfluve cross-section will not. Both cross-sections are returned as well as the arguments used to run the simulation.
+
+Because simulating a basin can take a few minutes, it is usually good to save these objects and reload them when needed later, rather than rerunning the model.
+
+```{r saveBasin, results='hide', error=FALSE, message=FALSE, warning=FALSE, eval=FALSE}
+save(geom, subs, eust, sedBasin, file='basinDemo.RData')
+```
+
+### Make plots of the basin
+
+Because much of what is simulated in this package are S3 objects, they have `print()`, `summary()`, and `plot()` methods. For example, to visualize a eustatic, subsidence, or sediment history, call `plot()` on those objects. Contours of subsidence rate can be shown as lines or as a color gradient ("filled"). Note that plotting subsidence also requires that the geometry object be supplied.
+
+```{r subsidenceEustasySedimentPlots, fig.height=7, fig.width=7}
+summary(geom)
+print(eust)
+plot(subs, geometry=geom, type='lines')
+plot(subs, geometry=geom, type='filled')
+plot(eust)
+plot(sedi)
+```
+
+Similarly, use `plot()` to visualize a cross-section of the basin, specifying whether the cross-section along the valley or interfluve is desired. Coastal plain deposits are shown in green, and marine deposits are shown in tan. Sea level at the end of the simulation is also shown. If there is a valley at the end of the simulation, the line for sea level on an interfluve profile will extend to the position of the shore inside the valley, and it will therefore appear to lie within the sediment on an interfluve profile.
+
+```{r basinPlot, fig.height=4, fig.width=7}
+plot(sedBasin, 'valley')
+plot(sedBasin, 'interfluve')
+```
+
+By default, `plot()` will show the entire basin. To focus on part of the basin in detail, set the `xlim` and `ylim` arguments to `plot()`.
+
+Time lines can be added with `addTimeLines()` and hiatuses can be added with `addHiatuses()`. The appearance of these lines can be customized in the standard ways. If adding both to a plot, adding time lines first will be faster. Hiatuses create substantial computational difficulties and functions involving them can be slow, particularly for large, long-lived basins. `addHiatuses()` is one example, as is `wheelerPlot()` and `accumulationRatePlot()`.
+
+```{r addToBasinPlot, fig.height=4, fig.width=7}
+plot(sedBasin, 'valley')
+addTimeLines(sedBasin, 'valley', timeLines=seq(0.1, 2.9, 0.1), lwd=0.5)
+addHiatuses(sedBasin, 'valley', col='red', lwd=1.5)
+```
+
+Use `wheelerPlot()` to create a chronostratigraphic plot, also called a Wheeler plot for Harry Wheeler, who demonstrated these in his classic 1964 Geological Society of America Bulletin paper. This plot depicts a cross-section through the basin, but the vertical axis is time, not rock thickness. Coastal plain facies are shown in green, marine facies in tan, and the path of the shoreline through time is shown in blue. Subaerial unconformities are shown with two colors; black indicates the hiatus, the time in which erosion was occurring, and gray indicates the sediments removed by that erosion. Together, these form the lacuna of the unconformity. White indicates sediment starvation.
+
+```{r wheelerPlot, fig.height=7, fig.width=7}
+wheelerPlot(sedBasin, 'valley')
+```
+
+Use `accumulationRatePlot()` to depict the accumulation rate along the valley or interfluve cross-section. Darker shades in the coastal plain indicate faster accumulation rates, lighter shades are slower rates. The scale of light to dark follows a percentile basis. Accumulation rates are not indicated for marine areas, so they are depicted with a uniform gray.
+
+```{r accumulationRatePlot, fig.height=4, fig.width=7}
+accumulationRatePlot(sedBasin, 'valley')
+accumulationRatePlot(sedBasin, 'interfluve')
+```
+
+Use `partitioningPlot()` to show the proportion of sediment in the coastal plain (green) and marine (tan) realms through time.
+
+```{r partitioningPlot, fig.height=7, fig.width=7}
+partitioningPlot(sedBasin)
+```
+
+Use `shoreAccommodationPlot()` to plot the rate of accommodation at the shoreline through time. This will change depending how fast the shoreline moves laterally into regions of differing subsidence rates, as well as how much eustatic sea level changes through time.
+
+```{r shoreAccommodationPlot, fig.height=7, fig.width=7}
+shoreAccommodationPlot(sedBasin)
+```
+
+Use `integratedSedimentPlot()` to show the total sediment deposited over the basin through time. A thin red dashed line shows the specified sediment flux; these two lines should match. Strong departures usually indicate a problem in the model, that it is unable to find an optimal shoreline.
+
+```{r integratedSedimentPlot, fig.height=7, fig.width=7}
+integratedSedimentPlot(sedBasin)
+```
+
+Use `elevationTimePlot()` to depict the elevation of any location through time. The `locationKm` argument specifies the distance from the left edge of the basin. This can be compared to the elevation changes actually preserved in a stratigraphic column, shown by `elevationHistoryPlot()` (see below, under *Simulate a Stratigraphic Column*).
+
+```{r elevationTimePlot, fig.height=7, fig.width=7}
+elevationTimePlot(sedBasin, locationKm=200.0, 'valley')
+```
+
+## Simulate species with ecologies
+
+Species are simulated with the `species()` function, which simulates the evolution, ecology, and taphonomic characteristics of non-marine species. For marine species, use the `marineSpecies()` function. The output of `species()` is a species object, and the output of marineSpecies is a marineSpecies object.
+
+```{r simulateSpecies}
+spec <- species(timeStep=0.001, extRate=0.25, startingSpecies=200, 
+durationMy=3.0,  minPE=0, maxPE=200, meanET=10, sdET=2, 
+meanLogPA=log(25), sdLogPA=log(5), maxPA=100)
+```
+
+The `species()` function requires many arguments, and these fall into two groups: those simulating evolution, and those simulating ecology and taphonomy.
+
+Evolution is simulated with a random-branching model, which is run as a series of time steps (`timeStep`) over a specified duration of time (`durationMy`); the units of both are in millions of years. The model duration be at least as long as the basin simulations, and the value of `timeStep` should be fairly short, such as 0.0001 m.y. (100 years). At each time step, a species may go extinct or branch to form a new species. The probabilities of origination and extinction are set to the same value, as a probability per million years (`extRate`). On average, diversity will not rise or fall except through stochastic drift. The simulation begins with a specified diversity (`startingSpecies`). 
+
+Ecology is simulated by specifying three arguments that describe the probability of occurrence of a species as a function of elevation (above sea level). Preferred environment for a species is the elevation at which a species is most likely to occur. It is equivalent to the mean of a normal distribution. Values of preferred environment are generated randomly for each species from a uniform distribution between a minimum (`minPE`) and a maximum (`maxPE`) value, expressed in meters. The value fo a species for this and all other parameters is constant over the history of a species. Environmental tolerance describes how a species occurs at elevations other than its preferred elevation; it is equivalent to the standard deviation of a normal distribution. Values of environmental tolerance for species are generated from a normal distribution; specify the mean (`meanET`) and standard deviation (`sdET`), with units of meters. A good rule of thumb is that a species elevation range is roughly equal to PE plus or minus three times the ET. Peak abundance is the probability of occurrence of a species at its preferred environment; it is the height of the normal distribution, and it is expressed as a percent. Peak abundance is generated from a log normal distribution; specify the mean base-10 log (`meanlogPA`), standard deviation of the base-10 log of peak abundance (`sdLogPA`), and the maximum value of peak abundance (`maxPA`). 
+
+Species may be preserved differentially in floodplain and channel facies, and their affinity for one versus the other is ranges from -1 (found only in channel facies) to zero (found equally in channel and floodplain) to +1 (found only in floodplain facies). Species affinity is randomly generated from a uniform distribution between minimum (minAff) and maximum (maxAff) values.
+
+### Save the species results
+
+The random-branching evolution process can take a few minutes, especially when the number of starting taxa is large or the duration of the simulation is long. Species do not need to be regenerated for every run, and a species file created previously can be reloaded when generating species occurrences. For example, the same set of species should be used when simulating fossil occurrences in multiple columns through a sedimentary basins. The same set of species should also be used for comparing sedimentary basins, so that differences reflect basin architecture and not stochastic differences in the species.
+
+```{r saveSpecies, eval=FALSE}
+save(spec, file="speciesSet1.RData")
+```
+
+### Plot species characteristics
+
+The characteristics of the generated species are easily visualized with `plot()`, which generates six histograms that describe the ensemble of species.
+
+```{r speciesCharacteristicsPlot, fig.height=7, fig.width=7}
+plot(spec)
+```
+
+The origination plot will generally show a large spike at the beginning of the simulation, reflecting the starting number of species plus any species that originate in the first time step. Likewise, the extinction plot will show a large spike after the end of the simulation; this is to avoid having the times of extinction coincide with the end of a basin simulation. 
+
+Preferred environment shows the distribution of species along the environmental (elevation) gradient. The distribution should be roughly uniform, but can show considerable stochastic variation when the starting number of species is small (<1000). Environmental tolerance shows the tolerance of species in terms of meters of elevation. The plot should be roughly normally distributed, again possibly with much stochastic variation. Peak abundance is expressed as a percentage (e.g., a value of 80% indicates a 0.80 probability of collection). It should be a right-tailed distribution, with many species at low PA values and fewer species at high PA values.
+
+`summary()` and `print()` describe these species distributions even more simply. 
+
+```{r speciesSummary}
+summary(spec)
+```
+
+Although diversity will tend to not show a net drift in a random-branching simulation of evolution, it may drift stochastically or it may show undesirably large rises and falls. In addition, because the ecological and taphonomic characteristics of species are generated stochastically, undesirable correlations of species diversity with the elevation gradient might be generated. Two plots can help diagnose this, and if an undesirable pattern is produced, species can be regenerated.
+
+The simplest and fastest method is `elevationDiversityPlot()`. This approach assumes that if the probability of occurrence of a species is greater than some specified value (pCrit), the species will occur at that elevation. All species are checked against all elevations, producing a plot of diversity a function of elevation.
+
+```{r elevationDiversityPlot, fig.height=7, fig.width=7}
+elevationDiversityPlot(spec, pCrit=0.2)
+```
+
+The second approach does not rely on a specified value for occurrence and instead repeatedly uses a random number generator to test for the occurrence of each species at each elevation. This approach allows for an estimate of expected diversity along with a confidence envelope. The number of simulations of the gradient is specified with numTrials; increasing it directly affects how long this simulation takes.
+
+```{r elevationDiversityResamplePlot, fig.height=7, fig.width=7}
+elevationDiversityResamplePlot(spec, numTrials=50, conf=0.90)
+```
+
+## Simulate a stratigraphic column
+
+A stratigraphic column from anywhere in a sedimentary basin can be generated with `column()`, which creates a column object. In addition to supplying a basin object, specify the location in the basin (from the left edge, in km) and whether a column from the valley profile or the interfluve profile is desired. Note again that if there is no relative fall in sea level while the basin was filled, the two profiles will be identical. 
+
+Two additional arguments exert a strong control on channel stacking and the relative proportions of channel and floodplain facies. The probability that channel facies will be deposited at any time step is given by `pChannel` (ranging from zero to one); if a channel is not deposited, floodplain facies are instead. The depth of a channel (`channelDepth`, in meters) controls how much previously deposited sediment may be eroded. Greater proportions of channel facies and increased numbers of multistory channels relative to single-story channels are generated by larger values of `pChannel` and `channelDepth`.
+
+```{r}
+locationKm <- 200.0
+pChannel <- 0.05
+channelDepth <- 2.0
+
+colValley <- column(sedBasin, locationKm=locationKm,
+ setting='valley', pChannel=pChannel, channelDepth=channelDepth)
+	
+colInterfluve <- column(sedBasin, locationKm=locationKm,
+ setting='interfluve', pChannel=pChannel, 
+ channelDepth=channelDepth)
+```
+
+### Saving columns
+
+Because every column includes a stochastic aspect of whether channel or floodplain facies is deposited at each time step, each column is therefore unique. Columns should be saved if they will be reused for other purposes, such as making plots or simulating fossil occurrences.
+
+```{r saveColumns, eval=FALSE}
+save(colValley, colInterfluve, file="column200.RData")
+```
+
+### Plotting columns
+
+Plot columns with `plot()` to examine them. You will likely want to adjust the aspect ratio (asp) of the column for aesthetic reasons. Smaller values make the column wider, and some trial and error adjustment may be needed to get the desired width. Floodplain mudstone is shown as olive, channel sandstone is yellow, and marine is tan. Each increment of floodplain mudstone or marine rocks is shown with thin lines bounding these increments; individual channels are also bounded. These lines give a sense of aggradation rates.
+
+```{r plotColumns, fig.height=7, fig.width=7}
+plot(colValley, asp=0.1)
+plot(colInterfluve, asp=0.1)
+```
+
+Because channel and floodplain facies are simulated stochastically, repeatedly generating columns at the same place will return somewhat different results. It is recommended to try this so that it is clear what aspects of the architecture are consistent through all columns and which reflect stochasticity.
+
+Use `elevationHistoryPlot()` to plot the elevation recorded in a stratigraphic column, that is, with stratigraphic height. Compare this to the elevation changes through time generated by `elevationTimePlot()`.
+
+```{r elevationHistoryPlot, fig.height=7, fig.width=7}
+elevationHistoryPlot(colValley)
+```
+
+Use `sedRateHistoryPlot()` to plot the sedimentation rate through a stratigraphic column, binned over a specified stratigraphic thickness (stratBin), in meters.
+
+```{r sedRateHistoryPlot, fig.height=7, fig.width=7}
+sedRateHistoryPlot(colValley, stratBin=5)
+```
+
+## Simulate fossil occurrences
+
+Fossil occurrences in a column are simulated with `occurrences()`, which generates an occurrence object and requires column and species objects. Use `load()` to reload a saved species file.
+
+```{r loadOccurrencesSourceFiles}
+occu <- occurrences(column=colValley, species=spec)
+```
+
+### Save the occurrences
+
+Every set of occurrences includes a stochastic aspect (the probability of occurrence of each species), so each set of occurrences is unique. For this reason, it may be worth saving occurrences that you generate.
+
+```{r saveOccurrences, eval=FALSE}
+save(occu, file="column200occurrences.RData")
+```
+
+### Plot the occurrences
+
+The stratigraphic distribution of the occurrences can be shown with `plot()`.
+
+```{r occurrencePlot, fig.height=7, fig.width=7}
+plot(occu, column=colValley, species=spec) 
+```
+
+If a mass extinction was simulated, the time period for the mass extinction can be added to the plot by specifying when peak extinction rates occurred (peakExtTimeMy) and the duration of the mass extinction (extDurationMy), both in millions of years. These values would be the same as that used when generating the species. The horizon corresponding to the time of peak extinction rates is shown as a horizontal line, and the window of elevated extinction rates is shaded. No mass extinction was simulated here, so this is just to show how to add an extinction window if one was simulated.
+
+```{r occurrencePlotWithExtinction, fig.height=7, fig.width=7}
+plot(occu, column=colValley, species=spec, peakExtTimeMy=1.5, 
+extDurationMy=0.5) 
+```
+
+Use `occurrenceColumnElevationPlot()` to plot a stratigraphic column, fossil occurrences, and elevation in one plot. The time of origination and extinction of each species are shown as gray crosses, and a vertical gray dashed line indicates all horizons in which a species was extant in the basin. Open blue circles indicate an occurrence of a singleton species. Blue dots indicate occurrences of species that occur more than once, and a blue line shows the total range of those species in the column. 
+
+```{r occurrenceColumnElevationPlot, fig.height=5, fig.width=7}
+occurrenceColumnElevationPlot(occurrences=occu, 
+column=colValley, species=spec)
+```
+
+Note that first occurrences generally occur higher than the horizon that records the time of extinction, and that last occurrences generally occur below the horizon that records the time of extinction. This difference is called range offset, and it can be measured with the `rangeOffset()` function.
+
+```{r rangeOffset}
+offsets <- rangeOffset(occurrences=occu, species=spec)
+str(offsets)
+```
+
+Stratigraphic architecture commonly causes first and last occurrences (FADs and LADs) to be clustered. Use `fadLadPlot()` with a specified interval (in m) for binning the FADs and LADs (sampleSpacing). The time of extinction can also be added, as in `occurrencePlot()`.  Again, no mass extinction was simulated here, but this shows how to add an extinction window if one was simulated.
+
+```{r fadLadPlot, fig.height=7, fig.width=7}
+fadLadPlot(occurrences=occu, column=colValley, type='fad', 
+sampleSpacing=1.0)
+fadLadPlot(occurrences=occu, column=colValley, type='lad', 
+sampleSpacing=0.5, peakExtTimeMy=1.5, extDurationMy=0.5)
+```
+
+Use `fadLadElevationSedPlot()` to plot the the number of FADs and LADs, elevation, and accumulation rate in three adjacent plots. The binning window for calculating average accumulation rate is set with stratBin.
+
+```{r fadLadElevationSedPlot, fig.height=7, fig.width=7}
+fadLadElevationSedPlot(occurrences=occu, column=colValley, 
+type='fad', stratBin=5)
+fadLadElevationSedPlot(occurrences=occu, column=colValley, 
+type='lad', stratBin=5)
+```
+
+Use `completeness()` to calculate the percent completeness (percent of species having at least one fossil occurrence in the column), as well as singletons (species occurring only once) and two-timers (species occurring only twice). 
+
+```{r calculateCompleteness}
+completeness(occurrences=occu, species=spec)
+```
+
+## Complex subsidence, eustasy, and sediment histories
+
+The `subsidence()`, `eustasy()`, and `sediment()` functions have similar capabilities. Specifically, they can generate constant values through time, linearly increasing or decreasing values, sinusoidally varying values, or combinations of these.
+
+At the simplest, constant subsidence, eustatic sea level, or sediment volumes can be specified. For eustasy, setting the `amplitude` argument to zero creates a constant, unchanging sea level. For sediment supply, set the `startingVolume` to some positive value to create a constant supply of sediment to the basin through time. For subsidence, set the `startingLeft` and `startingRight` arguments to set a constant subsidence rate for the left and right side of the basin. Since sediment is always introduced on the left side of the basin, setting `startingRight` at a greater value than `startingLeft` produces a passive-margin style of subsidence, and doing the opposite creates a foreland-basin style of subsidence. 
+
+```{r constantHistories}
+eust <- eustasy(geometry=geom)
+sedi <- sediment(geometry=geom, startingVolume=60)
+subs <- subsidence(geometry=geom, startingLeft=0, startingRight=50)
+```
+
+A linear trend (increasing or decreasing) can be added to each. For eustasy, set netRise to a positive value to have sea level undergo a linear rise through time (negative for a sea level fall); keep amplitude set to zero to avoid any sinusoidal component. netRise is the total change in sea level (in meters) over the history of the model run. 
+
+For sediment supply, set a positive value to netIncrease to have sediment supply show a net increase over the history of the model (negative for a net decrease). If you use a negative value for netIncrease to create a decrease in sediment supply through time, be sure that this does not cause sediment supply to ever be less than or equal to zero. 
+
+For subsidence, netChangeFactor describes how much subsidence rates will be modified across the basin, and it acts as a multiplier. The default value of 1 means that the final subsidence rates are 1x the starting rates, in other words, the same. A value of 2 would cause the subsidence rates to progressively increase to 2x their starting values across the basin. A value of 0.5 would cause subsidence rates to halve over the history of the basin. Zero and negative values are not permitted. 
+
+```{r linearHistories}
+eust <- eustasy(geometry=geom, amplitude=0, netRise=50)
+sedi <- sediment(geometry=geom, startingVolume=60, netIncrease=60)
+subs <- subsidence(geometry=geom, startingLeft=0, startingRight=50, 
+netChangeFactor=2)
+```
+
+`subsidence()`, `eustasy()`, and `sediment()` are highly customizable, including differences in period (in millions of years), amplitude (meters for eustasy and subsidence), phase, shape, and asymmetry. Amplitude reflects the amount of change relative to the center of the sine wave, so the total fluctuation over one period is equal to two times the amplitude. 
+
+The `phase` argument can be set to one of four values &mdash; 'rising', 'falling', 'highPoint', or 'lowPoint', which respectively represent the inflection point on the rising limb, inflection point on the falling limb, highest point, and lowest point on a sine wave. 'rising' is the default.
+
+```{r phaseArgument, eval=FALSE}
+flexSin(timePoints, period=1, amplitude=10, phase='highPoint')
+```
+
+The `shape` argument is a non-dimensional value that ranges from zero to positive infinity, with zero being a classical sine wave and increasingly positive values making the wave more squared. A nearly square wave is generated for a value of 100. 
+
+```{r shapeArgument, eval=FALSE}
+flexSin(timePoints, period=1, amplitude=10, shape=4)
+```
+
+```{r flexSinShapeBehavior, echo=FALSE, fig.height=7, fig.width=7}
+timePoints <- seq(0, 2, 0.001)
+wave1 <- flexSin(timePoints, period=1, amplitude=10, phase='lowPoint', shape=0)
+wave2 <- flexSin(timePoints, period=1, amplitude=10, phase='lowPoint', shape=4)
+wave3 <- flexSin(timePoints, period=1, amplitude=10, phase='lowPoint', shape=20)
+wave4 <- flexSin(timePoints, period=1, amplitude=10, phase='lowPoint', shape=100)
+
+wave1col <- gray(0.0)
+wave2col <- gray(0.4)
+wave3col <- gray(0.6)
+wave4col <- gray(0.8)
+
+plot(timePoints, wave1, xlab='time', ylab='', las=1, type='l', col=wave1col)
+points(timePoints, wave2, type='l', col=wave2col)
+points(timePoints, wave3, type='l', col=wave3col)
+points(timePoints, wave4, type='l', col=wave4col)
+
+text(1.5, 5, 'shape=0', col=wave1col)
+text(1.5, 6, 'shape=4', col=wave2col)
+text(1.5, 7, 'shape=20', col=wave3col)
+text(1.5, 8, 'shape=100', col=wave4col)
+```
+
+Manipulating `shape` has several uses. For example, if a classical sine wave is used for eustasy, nearly all of the strata accumulate during the TST and FSST, resulting in unusually short durations (and correspondingly thin deposits) for the HST and FSST. Setting shape to a value around 4 balances the time among the systems tracts. A sine wave that has been somewhat squared off can be used to produce a step-change in subsidence, sea level, or sediment supply. For example if the period is set to be twice the model run, it is possible to create an abrupt increase in sediment supply, subsidence, or sea level. This can allow you to isolate, for example, the effects of sea level rise, without it constantly changing.
+
+The `symmetry` argument is used to create sine waves that vary in symmetry; a symmetrical (clasical) sine wave is the default. The argument varies from 0.0, where the fall is rapid and the rise is gentle, to 1.0, where the fall is gentle and the rise is rapid. A value of 0.5 corresponds to a symmetrical sine wave.
+
+```{r symmetryArgument, eval=FALSE}
+flexSin(timePoints, period=1, amplitude=10, shape=4)
+```
+
+```{r flexSinSymmetryBehavior, echo=FALSE, fig.height=7, fig.width=7}
+timePoints <- seq(0, 2, 0.001)
+wave1 <- flexSin(timePoints, period=1, amplitude=10, phase='lowPoint', symmetry=0.1)
+wave2 <- flexSin(timePoints, period=1, amplitude=10, phase='lowPoint', symmetry=0.3)
+wave3 <- flexSin(timePoints, period=1, amplitude=10, phase='lowPoint', symmetry=0.5)
+wave4 <- flexSin(timePoints, period=1, amplitude=10, phase='lowPoint', symmetry=0.7)
+wave5 <- flexSin(timePoints, period=1, amplitude=10, phase='lowPoint', symmetry=0.9)
+
+wave1col <- gray(0.1)
+wave2col <- gray(0.3)
+wave3col <- gray(0.5)
+wave4col <- gray(0.7)
+wave5col <- gray(0.9)
+
+plot(timePoints, wave1, xlab='time', ylab='', las=1, type='l', col=wave1col)
+points(timePoints, wave2, type='l', col=wave2col)
+points(timePoints, wave3, type='l', col=wave3col)
+points(timePoints, wave4, type='l', col=wave4col)
+points(timePoints, wave5, type='l', col=wave5col)
+
+text(0.5, 1.0, 'symmetry=0.1', col=wave1col)
+text(0.5, 1.8, 'symmetry=0.3', col=wave2col)
+text(0.5, 2.6, 'symmetry=0.5', col=wave3col)
+text(0.5, 3.4, 'symmetry=0.7', col=wave4col)
+text(0.5, 4.2, 'symmetry=0.9', col=wave5col)
+```
+
+These modifications (linear trend, asymmetry, squared waves) can also be combined. Here is an example of creating a eustatic history that is asymmetrical, somewhat squared-off, combined with a net rise in sea level, and starting at the low point of the sine wave.
+
+```{r squaredEustasy, fig.height=7, fig.width=7}
+geom <- geometry(fallLineY=150, shoreX=200, deltaWidth=100, 
+deltaToeY=-100, marginWidth=500, nonMarAlpha=0.5, marineAlpha=2.0, 
+duration=3.0, timeStep=0.01)
+eust <- eustasy(geom, period=1.0, amplitude=5.0, symmetry=0.2, 
+phase='lowPoint', shape=4, netRise=10.0) 	
+plot(eust)
+```
+
+Finally, it is possible to overwrite the subsidence, sea-level, or sediment history inside the objects returned by `subsidence()`, `eustasy()`, or `sediment()` to create any desired history, although this will not be demonstrated here. Contact me if you need an example of this.

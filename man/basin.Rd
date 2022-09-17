@@ -5,7 +5,7 @@
 \alias{plot.basin}
 \alias{print.basin}
 \alias{summary.basin}
-\title{subsidence: The subsidence function}
+\title{Basin Simulation}
 \usage{
 basin(geometry, subsidence, eustasy, sediment, searchWidth = 10)
 
@@ -15,39 +15,54 @@ basin(geometry, subsidence, eustasy, sediment, searchWidth = 10)
   addLegend = TRUE,
   xlim = NULL,
   ylim = NULL,
-  debugPlot = FALSE
+  ...
 )
 
-\method{print}{basin}(x)
+\method{print}{basin}(x, ...)
 
-\method{summary}{basin}(x)
+\method{summary}{basin}(object, ...)
 }
 \arguments{
-\item{geometry}{a geometry object}
+\item{geometry}{an object of class \code{\link{geometry}}.}
 
-\item{subsidence}{a subsidence object}
+\item{subsidence}{an object of class \code{\link{subsidence}}.}
 
-\item{eustasy}{a eustasy object}
+\item{eustasy}{an object of class \code{\link{eustasy}}.}
 
-\item{sediment}{a sediment object}
+\item{sediment}{an object of class \code{\link{sediment}}.}
 
-\item{searchWidth}{a distance (in km) for the distance over which an optimal shore is found. Generally should not be changed.}
+\item{searchWidth}{a distance (in km) for the distance over which an optimal shore is
+found. Generally should not be changed.}
+
+\item{x, object}{an object of class \code{basin}.}
+
+\item{setting}{a string ('valley' or 'interfluve') that specifies the location of a
+basin cross-section.}
+
+\item{addLegend}{a boolean indicating whether a legend for coastal plain and marine
+facies should be added to the basin plot.}
+
+\item{xlim, ylim}{Optional setting to set the range of the x-axis and y-axis that is
+displayed.}
+
+\item{...}{additional arguments to be passed.}
 }
 \value{
-\code{NULL}
+basin returns an object of class "basin", which includes print, summary, and plot methods.
 
-\code{NULL}
-
-\code{NULL}
+A basin object is a list consisting of 14 objects. The first element to the list, \code{parameters} contains a series of lists reflecting the inputs given by the geometry, subsidence, eustasy, and sediment objects. The remaining 13 items in the list are the outputs of the model. \code{positions} are the locations in the basin, in km from the left edge. \code{timePoints} are the model times that were simulated, in m.y. \code{elevationProfileValley} and \code{elevationProfileInterfluve} are matrices that record the elevation along those two profiles at every time step in the simulation; rows correspond to time points and columns correspond to positions in the basin. \code{sedimentAccumulatedValley} and \code{sedimentAccumulatedInterfluve} record the thickness of sediment accumulated (in meters) at every location and time point; rows correspond to time points and columns correspond to positions in the basin. \code{hiatusValley} and \code{hiatusInterfluve} are boolean matrices that record whether a hiatus was forming at any point at any time in the basin; rows correspond to time points and columns correspond to positions in the basin. \code{subsidenceRate} records the subsidence rate (in m / m.y.) at every location and time in the basin; rows correspond to time points and columns correspond to positions in the basin. \code{eustasy} is a vector of the position of sea level (in m) at each time point. \code{integratedSediment} is a vector of the total sediment volume deposited in the basin (in m * km) at each time point. \code{targetSediment} is a vector of the amount of sediment that was intended to be deposited at each time point; this should match \code{integratedSediment} closely. Finally, \code{shore} records the position of the shore at each time point, in km from the left edge of the basin.
 }
 \description{
-Create a basin object
+Create an object of class "basin".
 }
 \details{
-Creates a basin object, which records the history of sedimentation, elevation, and water depth across a sedimentary basin. Requires geometry, subsidence, eustasy, and sediment objects. Sedimentary basins can take several minutes to run.
+Creates a basin object, which records the history of sedimentation, elevation,
+and water depth across a sedimentary basin. Requires geometry, subsidence, eustasy,
+and sediment objects. Sedimentary basins can take several minutes to run.
 }
 \examples{
-geom <- geometry(fallLineY=150, shoreX=200, deltaWidth=100, deltaToeY=-100, marginWidth=500, nonMarAlpha=0.5, marineAlpha=2.0, duration=3.0, timeStep=0.01)
+geom <- geometry(fallLineY=150, shoreX=200, deltaWidth=100, deltaToeY=-100, 
+  marginWidth=600, nonMarAlpha=0.5, marineAlpha=2.0, duration=3.0, timeStep=0.01)
 subs <- subsidence(geometry=geom, startingLeft=0.0, startingRight=1.0)
 eust <- eustasy(geometry=geom, netRise=30.0)	
 sedi <- sediment(geometry=geom, startingVolume=120, netIncrease=120)

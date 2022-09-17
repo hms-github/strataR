@@ -2,10 +2,9 @@
 % Please edit documentation in R/geometry.R
 \name{geometry}
 \alias{geometry}
-\alias{plot.geometry}
 \alias{print.geometry}
 \alias{summary.geometry}
-\title{geometry: The geometry function}
+\title{Basin Geometry}
 \usage{
 geometry(
   fallLineY,
@@ -20,14 +19,13 @@ geometry(
   timeStep
 )
 
-\method{plot}{geometry}(x)
+\method{print}{geometry}(x, ...)
 
-\method{print}{geometry}(x)
-
-\method{summary}{geometry}(x)
+\method{summary}{geometry}(object, ...)
 }
 \arguments{
-\item{fallLineY}{vertical elevation of the fall line, in meters. Corresponds to the edge of sedimentary basin, from which sediment is introduced.}
+\item{fallLineY}{vertical elevation of the fall line, in meters. Corresponds to the
+edge of sedimentary basin, from which sediment is introduced.}
 
 \item{shoreX}{distance of the initial shoreline from the fall line, in km.}
 
@@ -37,22 +35,25 @@ geometry(
 
 \item{marginWidth}{width of the sedimentary basin, in km.}
 
-\item{resolution}{a string (low, medium, or high) describing the spatial resolution of the model. In most cases, medium is sufficient.}
+\item{resolution}{a string (low, medium, or high) describing the spatial resolution of
+the model. In most cases, medium is sufficient.}
 
-\item{nonMarAlpha}{a value from 0 to 1, describing the curvature of the coastal plain equilibrium profile.}
+\item{nonMarAlpha, marineAlpha}{a value from 0 to 1, describing the curvature of the
+coastal plain and marine equilibrium profiles. Larger values create a more concave
+profile}
 
 \item{duration}{duration of the basin simulation, in m.y.}
 
 \item{timeStep}{duration of one time step in the basin simulation, in m.y.}
 
-\item{marineAlphaa}{value from 0 to 1, describing the curvature of the marine equilibrium profile.}
+\item{x, object}{an object of class \code{geometry}.}
+
+\item{...}{additional arguments to be passed.}
 }
 \value{
-\code{NULL}
+geometry returns an object of class "geometry", which includes print and summary methods.
 
-\code{NULL}
-
-\code{NULL}
+A geometry object consists of a list of the twelve arguments used to create the geometry object. Vertical distances are in meters, horizontal distances are in kilometers, times are in millions of years. \code{nonMarAlpha} and \code{marineAlpha} are non-dimensional constants that describe the curvature of the nonmarine and marine equilibrium values. Larger values reflect a more strongly curved topographic profile.
 }
 \description{
 Create a basin geometry object
@@ -61,6 +62,7 @@ Create a basin geometry object
 Creates a basin geometry object, which is needed to create subsidence, eustasy, sedimentation, and basin objects. A geometry object defines the spatial and temporal characteristics of a basin simulation.
 }
 \examples{
-geom <- geometry(fallLineY=150, shoreX=200, deltaWidth=100, deltaToeY=-100, marginWidth=500, nonMarAlpha=0.5, marineAlpha=2.0, duration=3.0, timeStep=0.01)
+geom <- geometry(fallLineY=150, shoreX=200, deltaWidth=100, deltaToeY=-100, 
+  marginWidth=600, nonMarAlpha=0.5, marineAlpha=2.0, duration=3.0, timeStep=0.01)
 
 }

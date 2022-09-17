@@ -5,7 +5,7 @@
 \alias{plot.sediment}
 \alias{print.sediment}
 \alias{summary.sediment}
-\title{sediment: The sediment function}
+\title{Sediment Flux History}
 \usage{
 sediment(
   geometry,
@@ -18,44 +18,56 @@ sediment(
   shape = 0
 )
 
-\method{plot}{sediment}(x)
+\method{plot}{sediment}(x, ...)
 
-\method{print}{sediment}(x)
+\method{print}{sediment}(x, ...)
 
-\method{summary}{sediment}(x)
+\method{summary}{sediment}(object, ...)
 }
 \arguments{
-\item{geometry}{a geometry object}
+\item{geometry}{an object of class \code{\link{geometry}}.}
 
-\item{startingVolume}{the starting sediment flux delivered at the left edge of the model, in m * km.}
+\item{startingVolume}{the starting sediment flux delivered at the left edge of the
+model, in m * km.}
 
-\item{netIncrease}{the amount by which sediment influx increases beginning of the simulation to the end. Negative values indicate a decrease in sediment flux.}
+\item{netIncrease}{the amount by which sediment influx increases beginning of the
+simulation to the end. Negative values indicate a decrease in sediment flux.}
 
 \item{period}{the period of sediment flux cycles, in m.y.}
 
-\item{amplitude}{the amplitude of sediment flux cycles, in m * km. The peak-to-peak sediment flux change is twice the amplitude.}
+\item{amplitude}{the amplitude of sediment flux cycles, in m * km. The peak-to-peak
+sediment flux change is twice the amplitude.}
 
-\item{symmetry}{a value ranging from 0 to 1 describing the symmetry of the sediment flux cycles. 0.5 is a classic cosine wave; smaller values have increasingly faster initial change in rates and slower subsequent changes in rates; larger values indicate the opposite.}
+\item{symmetry}{a value ranging from 0 to 1 describing the symmetry of the sediment
+flux cycles. 0.5 is a classic cosine wave; smaller values have increasingly faster
+initial change in rates and slower subsequent changes in rates; larger values
+indicate the opposite.}
 
-\item{phase}{a string with possible values of rising, falling, highPoint, and lowPoint describing the starting position of cyclic sediment flux.}
+\item{phase}{a string with possible values of "falling", "rising", "highPoint", and
+"lowPoint" describing the starting position of cyclic sediment flux.}
 
-\item{shape}{a value of 0 or greater that describes the shape of the sediment flux cycle. 0 corresponds to a classic cosine curve, and larger values cause the curve to become increasingly squared-off.}
+\item{shape}{a dimensionless value of 0 or greater that describes the shape of the
+sediment flux cycle. 0 corresponds to a classic cosine curve, and larger values cause
+the curve to become increasingly squared-off.}
+
+\item{x, object}{an object of class \code{sediment}.}
+
+\item{...}{additional arguments to be passed.}
 }
 \value{
-\code{NULL}
+sediment returns an object of class "sediment", which includes print, summary, and plot methods.
 
-\code{NULL}
-
-\code{NULL}
+A sediment object is a list of two items. The first item (\code{parameters}) is a list of the arguments used in creating the sediment object. The second item (\code{timeSeries}) is a two-column data frame that records the time (\code{timePoint}, in m.y.) and the volume (\code{volume}, in m * km) of sediment supplied to the basin.
 }
 \description{
-Create a sediment object
+Create an object of class "sediment".
 }
 \details{
-Creates a sediment object, which is needed to create a basin object. A sediment object describes how sediment flux to the basin changes through time
+Creates a sediment object, which is needed to create a basin object. A sediment object describes how sediment flux to the basin changes through time.
 }
 \examples{
-geom <- geometry(fallLineY=150, shoreX=200, deltaWidth=100, deltaToeY=-100, marginWidth=500, nonMarAlpha=0.5, marineAlpha=2.0, duration=3.0, timeStep=0.01)
+geom <- geometry(fallLineY=150, shoreX=200, deltaWidth=100, deltaToeY=-100, 
+  marginWidth=600, nonMarAlpha=0.5, marineAlpha=2.0, duration=3.0, timeStep=0.01)
 sedi <- sediment(geometry=geom, startingVolume=60)
 
 }

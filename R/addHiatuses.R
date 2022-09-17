@@ -1,15 +1,23 @@
-#' Create a ternary plot
+#' @title Hiatuses
 #'
-#' Creates a ternary plot from three variables that sum to 100%, such as petrographic data in geology. Specifies the labels for the three apexes of the triangle, whether a grid should be shown, and the spacing of the grid lines
+#' @description Adds hiatuses to a basin plot.
 #'
-#' @param \code{TRUE}
+#' @details Hiatuses are added to a basin plot. These may be subaerial unconformities 
+#'   (typically within coastal plain deposits) or downlap surfaces (typically within  
+#'   marine deposits).
+#'
+#' @param basin an object of class [`basin`].
+#' @param setting a string, either "valley" or "interfluve".
+#' @param col the color of the hiatus line segments.
+#' @param lwd the line weight of the hiatus line segments.
+#' @param ... Optional arguments to style how the hiatus line segments are displayed.
 #'
 #' @export
-#' 
-#' @return \code{TRUE}
 #'
 #' @examples
-#' ternaryPlot(myData, labels=("Q", "F", "L"))
+#' data(sedBasin)
+#' plot(sedBasin)
+#' addHiatuses(sedBasin, setting='valley')
 #'
 
 addHiatuses <- function(basin, setting=c('valley', 'interfluve'), col='red', lwd=2, ...) {
@@ -45,7 +53,7 @@ addHiatuses <- function(basin, setting=c('valley', 'interfluve'), col='red', lwd
 			hiatusY1 <- c(hiatusY1, surface[final])
 		}	
 		
-	 	segments(hiatusX0, hiatusY0, hiatusX1, hiatusY1, col=col, lwd=lwd, ...)
+	 	graphics::segments(hiatusX0, hiatusY0, hiatusX1, hiatusY1, col=col, lwd=lwd, ...)
 	} else if (setting == 'interfluve') {
 		elevation <- basin$elevationProfileInterfluve
 	 	left <- basin$hiatusInterfluve[ , 1:(numPositions-1)]
@@ -68,7 +76,7 @@ addHiatuses <- function(basin, setting=c('valley', 'interfluve'), col='red', lwd
 			hiatusY0 <- c(hiatusY0, surface[origin])
 			hiatusY1 <- c(hiatusY1, surface[final])
 	 	}
-	 	segments(hiatusX0, hiatusY0, hiatusX1, hiatusY1, col=col, lwd=lwd, ...)
+	 	graphics::segments(hiatusX0, hiatusY0, hiatusX1, hiatusY1, col=col, lwd=lwd, ...)
 	} else {
 	     warning("Setting must be 'valley' or 'interfluve'", call.=FALSE, immediate.=TRUE)
 	}

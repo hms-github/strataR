@@ -2,20 +2,21 @@
 % Please edit documentation in R/shoreAccommodationPlot.R
 \name{shoreAccommodationPlot}
 \alias{shoreAccommodationPlot}
-\title{Create a ternary plot}
+\title{Shoreline Accommodation Plot}
 \usage{
-shoreAccommodationPlot(basin, shoreRates)
+shoreAccommodationPlot(basin)
 }
 \arguments{
-\item{\code{TRUE}}{}
-}
-\value{
-\code{TRUE}
+\item{basin}{an object of class \code{\link{basin}}.}
 }
 \description{
-Creates a ternary plot from three variables that sum to 100\%, such as petrographic data in geology. Specifies the labels for the three apexes of the triangle, whether a grid should be shown, and the spacing of the grid lines
+Plot of the rate of accommodation at the shoreline through time.
+}
+\details{
+Shows the rate of accommodation (subsidence plus sea-level rise) at the shoreline through time. This will vary as rates of accommodation and eustasy vary through time, as well as with lateral shifts in the shoreline.
 }
 \examples{
-ternaryPlot(myData, labels=("Q", "F", "L"))
+data(sedBasin)
+shoreAccommodationPlot(sedBasin)
 
 }

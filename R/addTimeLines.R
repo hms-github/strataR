@@ -1,15 +1,20 @@
-#' Create a ternary plot
+#' @title Time Lines
 #'
-#' Creates a ternary plot from three variables that sum to 100%, such as petrographic data in geology. Specifies the labels for the three apexes of the triangle, whether a grid should be shown, and the spacing of the grid lines
+#' @description Adds time lines to a basin plot.
 #'
-#' @param \code{TRUE}
+#' @details Time lines of any desired spacing are added to a basin plot.
+#'
+#' @param basin an object of class [`basin`].
+#' @param setting a string, either "valley" or "interfluve".
+#' @param timeLines a vector of times (in m.y.) for which time lines should be added.
+#' @param ... Optional arguments to style how the time lines are displayed.
 #'
 #' @export
 #' 
-#' @return \code{TRUE}
-#'
 #' @examples
-#' ternaryPlot(myData, labels=("Q", "F", "L"))
+#' data(sedBasin)
+#' plot(sedBasin)
+#' addTimeLines(sedBasin, setting='valley', timeLines=seq(0.1, 2.9, 0.1))
 #'
 
 addTimeLines <- function(basin, setting=c('valley', 'interfluve'), timeLines, ...) {
@@ -46,6 +51,6 @@ addTimeLines <- function(basin, setting=c('valley', 'interfluve'), timeLines, ..
 			warning("Setting must be 'valley' or 'interfluve'", call.=FALSE, immediate.=TRUE)
 		}
 		
-		points(basin$positions, surface, type='l', ...)
+		graphics::points(basin$positions, surface, type='l', ...)
 	}
 }

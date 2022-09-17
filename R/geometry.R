@@ -1,30 +1,39 @@
-#' Create a basin geometry object
+#' @title Basin Geometry
 #'
-#' Creates a basin geometry object, which is needed to create subsidence, eustasy, sedimentation, and basin objects. A geometry object defines the spatial and temporal characteristics of a basin simulation.
+#' @description Create a basin geometry object
+#'
+#' @details Creates a basin geometry object, which is needed to create subsidence, eustasy, sedimentation, and basin objects. A geometry object defines the spatial and temporal characteristics of a basin simulation. 
 #' 
-#' @title geometry: The geometry function
-#' @param fallLineY vertical elevation of the fall line, in meters. Corresponds to the edge of sedimentary basin, from which sediment is introduced.
+#' @param fallLineY vertical elevation of the fall line, in meters. Corresponds to the  
+#'   edge of sedimentary basin, from which sediment is introduced.
 #' @param shoreX distance of the initial shoreline from the fall line, in km.
 #' @param deltaWidth width of the marine delta, in km.
 #' @param deltaToeY initial water depth of the toe (base) of the marine delta, in m.
 #' @param marginWidth width of the sedimentary basin, in km.
-#' @param resolution a string (low, medium, or high) describing the spatial resolution of the model. In most cases, medium is sufficient.
-#' @param nonMarAlpha a value from 0 to 1, describing the curvature of the coastal plain equilibrium profile.
-#' @param marineAlphaa value from 0 to 1, describing the curvature of the marine equilibrium profile.
+#' @param resolution a string (low, medium, or high) describing the spatial resolution of  
+#'   the model. In most cases, medium is sufficient.
+#' @param nonMarAlpha,marineAlpha a value from 0 to 1, describing the curvature of the  
+#'   coastal plain and marine equilibrium profiles. Larger values create a more concave  
+#'   profile
 #' @param duration duration of the basin simulation, in m.y.
 #' @param timeStep duration of one time step in the basin simulation, in m.y.
+#' @param x,object an object of class `geometry`.
+#' @param ... additional arguments to be passed.
+#' 
 #' @examples
-#' geom <- geometry(fallLineY=150, shoreX=200, deltaWidth=100, deltaToeY=-100, marginWidth=500, nonMarAlpha=0.5, marineAlpha=2.0, duration=3.0, timeStep=0.01)
+#' geom <- geometry(fallLineY=150, shoreX=200, deltaWidth=100, deltaToeY=-100, 
+#'   marginWidth=600, nonMarAlpha=0.5, marineAlpha=2.0, duration=3.0, timeStep=0.01)
 #' 
 #' @rdname geometry
 #' @export geometry
+#' 
+#' @return geometry returns an object of class "geometry", which includes print and summary methods.
+#'
+#' A geometry object consists of a list of the twelve arguments used to create the geometry object. Vertical distances are in meters, horizontal distances are in kilometers, times are in millions of years. `nonMarAlpha` and `marineAlpha` are non-dimensional constants that describe the curvature of the nonmarine and marine equilibrium values. Larger values reflect a more strongly curved topographic profile.
+#' 
 
-geometry <- function(fallLineY, shoreX, deltaWidth, deltaToeY, marginWidth, resolution = c('medium', 'low', 'high'), nonMarAlpha, marineAlpha, duration, timeStep) {
-	# horizontal distances (shoreX, deltaWidth, marginWidth) are in km
-	# vertical distances (fallLineY, deltaToeY) are in m; positive is above sea level, negative is below
-	# time values (duration, timeStep) are in m.y.
-	# nonMarAlpha and marineAlpha are non-dimensional terms that describe the curvature of the alluvial plain and the marine profile
-	
+
+geometry <- function(fallLineY, shoreX, deltaWidth, deltaToeY, marginWidth, resolution = c('medium', 'low', 'high'), nonMarAlpha, marineAlpha, duration, timeStep) {	
 	resolution <- match.arg(resolution)
 	
 	if (missing(fallLineY)) {
@@ -88,21 +97,10 @@ geometry <- function(fallLineY, shoreX, deltaWidth, deltaToeY, marginWidth, reso
 	return(results)
 }
 
-#' @return \code{NULL}
-#' 
 #' @rdname geometry
 #' @export
 
-plot.geometry <- function(x) {
-	message(paste("A geometry cannot be plotted"))
-}
-
-#' @return \code{NULL}
-#' 
-#' @rdname geometry
-#' @export
-
-print.geometry <- function(x) {
+print.geometry <- function(x, ...) {
 	cat("fallLineX:   ", x$fallLineX, "km\n")
 	cat("fallLineY:   ", x$fallLineY, "m\n")
 	cat("shoreX:      ", x$shoreX, "km\n")
@@ -117,20 +115,19 @@ print.geometry <- function(x) {
 	cat("timeStep:    ", x$timeStep, "m.y.\n")
 }
 
-#' @return \code{NULL}
 #' 
 #' @rdname geometry
 #' @export
 
-summary.geometry <- function(x) {
-	cat("Fall line elevation (fallLineY):              ", x$fallLineY, "m\n")
-	cat("Shoreline placement (shoreX):                 ", x$shoreX, "km\n")
-	cat("Delta width (deltaWidth):                     ", x$deltaWidth, "km\n")
-	cat("Basin width (marginWidth):                    ", x$marginWidth, "km\n")
-	cat("Depth of delta toe (deltaToeY):               ", x$deltaToeY, "m\n")
-	cat("Spatial resolution (deltaX):                  ", x$deltaX, "m (set via resolution)\n")
-	cat("Curvature of nonmarine profile (nonMarAlpha): ", x$nonMarAlpha, "(dimensionless)\n")
-	cat("Curvature of marine profile (marineAlpha):    ", x$marineAlpha, "(dimensionless)\n")
-	cat("Model duration (duration):                    ", x$duration, "m.y.\n")
-	cat("Time step (timeStep):                         ", x$timeStep, "m.y.\n")
+summary.geometry <- function(object, ...) {
+	cat("Fall line elevation (fallLineY):              ", object$fallLineY, "m\n")
+	cat("Shoreline placement (shoreX):                 ", object$shoreX, "km\n")
+	cat("Delta width (deltaWidth):                     ", object$deltaWidth, "km\n")
+	cat("Basin width (marginWidth):                    ", object$marginWidth, "km\n")
+	cat("Depth of delta toe (deltaToeY):               ", object$deltaToeY, "m\n")
+	cat("Spatial resolution (deltaX):                  ", object$deltaX, "m (set via resolution)\n")
+	cat("Curvature of nonmarine profile (nonMarAlpha): ", object$nonMarAlpha, "(dimensionless)\n")
+	cat("Curvature of marine profile (marineAlpha):    ", object$marineAlpha, "(dimensionless)\n")
+	cat("Model duration (duration):                    ", object$duration, "m.y.\n")
+	cat("Time step (timeStep):                         ", object$timeStep, "m.y.\n")
 }

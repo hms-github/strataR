@@ -2,20 +2,23 @@
 % Please edit documentation in R/wheelerPlot.R
 \name{wheelerPlot}
 \alias{wheelerPlot}
-\title{Create a ternary plot}
+\title{Wheeler Plot}
 \usage{
-wheelerPlot(x, setting = c("valley", "interfluve"))
+wheelerPlot(basin, setting = c("valley", "interfluve"))
 }
 \arguments{
-\item{\code{TRUE}}{}
-}
-\value{
-\code{TRUE}
+\item{basin}{an object of class \code{\link{basin}}.}
+
+\item{setting}{a string, either "valley" or "interfluve".}
 }
 \description{
-Creates a ternary plot from three variables that sum to 100\%, such as petrographic data in geology. Specifies the labels for the three apexes of the triangle, whether a grid should be shown, and the spacing of the grid lines
+Plot of regions of sedimentation, non-deposition, and erosion throug time.
+}
+\details{
+Plot is a chronostratigraphic diagram, also called a Wheeler plot, showing times and locations non-marine deposition (green), marine deposition (tan), subaerial erosion (the hiatus, black), and sediment starvation (white). Also shown are sediments that have been erosionally removed (the degradational vacuity, gray), as well as the location of the shore (blue). The combined hiatus and degradational vacuity represent the lacuna of an unconformity.
 }
 \examples{
-ternaryPlot(myData, labels=("Q", "F", "L"))
+data(sedBasin)
+wheelerPlot(sedBasin, setting="valley")
 
 }

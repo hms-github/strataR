@@ -1,29 +1,44 @@
-#' Create a sediment object
-#'
-#' Creates a sediment object, which is needed to create a basin object. A sediment object describes how sediment flux to the basin changes through time
+#' @title Sediment Flux History
 #' 
-#' @title sediment: The sediment function
-#' @param geometry a geometry object
-#' @param startingVolume the starting sediment flux delivered at the left edge of the model, in m * km.
-#' @param netIncrease the amount by which sediment influx increases beginning of the simulation to the end. Negative values indicate a decrease in sediment flux.
+#' @description Create an object of class "sediment".
+#'
+#' @details Creates a sediment object, which is needed to create a basin object. A sediment object describes how sediment flux to the basin changes through time.
+#' 
+#' @param geometry an object of class [`geometry`].
+#' @param startingVolume the starting sediment flux delivered at the left edge of the  
+#'   model, in m * km.
+#' @param netIncrease the amount by which sediment influx increases beginning of the  
+#'   simulation to the end. Negative values indicate a decrease in sediment flux.
 #' @param period the period of sediment flux cycles, in m.y.
-#' @param amplitude the amplitude of sediment flux cycles, in m * km. The peak-to-peak sediment flux change is twice the amplitude.
-#' @param symmetry a value ranging from 0 to 1 describing the symmetry of the sediment flux cycles. 0.5 is a classic cosine wave; smaller values have increasingly faster initial change in rates and slower subsequent changes in rates; larger values indicate the opposite.
-#' @param phase a string with possible values of rising, falling, highPoint, and lowPoint describing the starting position of cyclic sediment flux.
-#' @param shape a value of 0 or greater that describes the shape of the sediment flux cycle. 0 corresponds to a classic cosine curve, and larger values cause the curve to become increasingly squared-off.
+#' @param amplitude the amplitude of sediment flux cycles, in m * km. The peak-to-peak  
+#'   sediment flux change is twice the amplitude.
+#' @param symmetry a value ranging from 0 to 1 describing the symmetry of the sediment  
+#'   flux cycles. 0.5 is a classic cosine wave; smaller values have increasingly faster  
+#'   initial change in rates and slower subsequent changes in rates; larger values  
+#'   indicate the opposite.
+#' @param phase a string with possible values of "falling", "rising", "highPoint", and  
+#'   "lowPoint" describing the starting position of cyclic sediment flux.
+#' @param shape a dimensionless value of 0 or greater that describes the shape of the  
+#'   sediment flux cycle. 0 corresponds to a classic cosine curve, and larger values cause  
+#'   the curve to become increasingly squared-off.
+#' @param x,object an object of class `sediment`.
+#' @param ... additional arguments to be passed.
+#' 
 #' @examples
-#' geom <- geometry(fallLineY=150, shoreX=200, deltaWidth=100, deltaToeY=-100, marginWidth=500, nonMarAlpha=0.5, marineAlpha=2.0, duration=3.0, timeStep=0.01)
+#' geom <- geometry(fallLineY=150, shoreX=200, deltaWidth=100, deltaToeY=-100, 
+#'   marginWidth=600, nonMarAlpha=0.5, marineAlpha=2.0, duration=3.0, timeStep=0.01)
 #' sedi <- sediment(geometry=geom, startingVolume=60)
 #' 
 #' @rdname sediment
 #' @export sediment
+#' 
+#' @return sediment returns an object of class "sediment", which includes print, summary, and plot methods.
+#'
+#' A sediment object is a list of two items. The first item (`parameters`) is a list of the arguments used in creating the sediment object. The second item (`timeSeries`) is a two-column data frame that records the time (`timePoint`, in m.y.) and the volume (`volume`, in m * km) of sediment supplied to the basin.
+#' 
+
 
 sediment <- function(geometry, startingVolume=60, netIncrease=0, period=1, amplitude=0, symmetry=0.5, phase=c('rising', 'falling', 'highPoint', 'lowPoint'), shape=0) {
-	# geometry is the object supplied by setGeometry()
-	# all times (period, duration, timeStep, timePoint) are in m.y.
-	# startingVolume, netIncrease, and amplitude are sediment volumes
-	# phase is one of four values - "falling", "rising", "highPoint", "lowPoint" - that describe whether the sine wave starts on the falling inflection point, rising inflection point, highest point, or lowest point on the sine wave.
-	# shape is dimensionless, 0 is a sine wave, higher values are flattened sine waves
 	phase <- match.arg(phase)
 	timePoint <- seq(0, geometry$duration, geometry$timeStep)
 	linearTrend <- netIncrease * timePoint/geometry$duration
@@ -39,21 +54,18 @@ sediment <- function(geometry, startingVolume=60, netIncrease=0, period=1, ampli
 	return(results)
 }
 
-#' @return \code{NULL}
-#' 
 #' @rdname sediment
 #' @export
 
-plot.sediment <- function(x) {
-	plot(x$timeSeries$timePoint, x$timeSeries$volume, type='l', las=1, xlab="model time (m.y.)", ylab="sediment flux")
+plot.sediment <- function(x, ...) {
+	plot(x$timeSeries$timePoint, x$timeSeries$volume, type='l', las=1, xlab="model time (m.y.)", ylab="sediment flux", ...)
 }
 
-#' @return \code{NULL}
 #' 
 #' @rdname sediment
 #' @export
 
-print.sediment <- function(x) {
+print.sediment <- function(x, ...) {
 	cat("startingVolume:          ", x$parameters$startingVolume, "m^2*km\n")
 	cat("netIncrease:             ", x$parameters$netIncrease, "m^2*km\n")
 	cat("period:                  ", x$parameters$period, "m.y.\n")
@@ -66,17 +78,16 @@ print.sediment <- function(x) {
 	cat("maximum sediment volume: ", max(x$timeSeries$volume), "m^2*km\n")
 }
 
-#' @return \code{NULL}
 #' 
 #' @rdname sediment
 #' @export
 
-summary.sediment <- function(x) {
-	cat("Starting volume of sediment (startingVolume):     ", x$parameters$startingVolume, "m^2*km\n")
-	cat("Net increase in sediment (netIncrease):           ", x$parameters$netIncrease, "m^2*km\n")
-	cat("Period of cyclical sediment input (period):       ", x$parameters$period, "m.y.\n")
-	cat("Amplitude of cyclical sediment input (amplitude): ", x$parameters$amplitude, "m^2*km\n")
-	cat("Symmetry of cyclical sediment input (symmetry):   ", x$parameters$symmetry, "(dimensionless, 0 to 1)\n")
-	cat("Phase of cyclical sediment input (phase):         ", x$parameters$phase, "\n")
-	cat("Shape of cyclical sediment input (shape):         ", x$parameters$shape, "(dimensionless, 0 to infinity)\n")
+summary.sediment <- function(object, ...) {
+	cat("Starting volume of sediment (startingVolume):     ", object$parameters$startingVolume, "m^2*km\n")
+	cat("Net increase in sediment (netIncrease):           ", object$parameters$netIncrease, "m^2*km\n")
+	cat("Period of cyclical sediment input (period):       ", object$parameters$period, "m.y.\n")
+	cat("Amplitude of cyclical sediment input (amplitude): ", object$parameters$amplitude, "m^2*km\n")
+	cat("Symmetry of cyclical sediment input (symmetry):   ", object$parameters$symmetry, "(dimensionless, 0 to 1)\n")
+	cat("Phase of cyclical sediment input (phase):         ", object$parameters$phase, "\n")
+	cat("Shape of cyclical sediment input (shape):         ", object$parameters$shape, "(dimensionless, 0 to infinity)\n")
 }

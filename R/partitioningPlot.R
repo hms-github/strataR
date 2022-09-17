@@ -1,15 +1,16 @@
-#' Create a ternary plot
+#' @title Sediment Partitioning Plot
+#' 
+#' @description Plot showing how sediment is partitioned into nonmarine and marine areas through time.
 #'
-#' Creates a ternary plot from three variables that sum to 100%, such as petrographic data in geology. Specifies the labels for the three apexes of the triangle, whether a grid should be shown, and the spacing of the grid lines
+#' @details Plots shows the volume of sediment deposited in nonmarine vs. marine areas through time, as a fraction of the total amount of sediment. As the shore transgresses and regresses, owing to subsidence, eustasy, and sediment supply, deposition may occur preferentially in nonmarine or marine areas.
 #'
-#' @param \code{TRUE}
+#' @param basin an object of class [`basin`].
 #'
 #' @export
-#' 
-#' @return \code{TRUE}
 #'
 #' @examples
-#' ternaryPlot(myData, labels=("Q", "F", "L"))
+#' data(sedBasin)
+#' partitioningPlot(sedBasin)
 #'
 
 partitioningPlot <- function(basin) {
@@ -23,14 +24,14 @@ partitioningPlot <- function(basin) {
 	# Fill entire plot with marine color
 	polygonX <- c(timePoints[-1], rev(timePoints[-1]))
 	marinePolygonY <- c(rep(1, length(partition$totalVolume)), rep(0, length(partition$totalVolume)))
-	polygon(polygonX, marinePolygonY, border=marineColor, col=marineColor)
+	graphics::polygon(polygonX, marinePolygonY, border=marineColor, col=marineColor)
 	
 	# Add nonmarine color on top
 	correctedNonmarine <- partition$fractionNonmarine
 	correctedNonmarine[is.na(correctedNonmarine)] <- 1.0
 	nonmarinePolygonY <- c(correctedNonmarine, rep(0, length(partition$totalVolume)))
-	polygon(polygonX, nonmarinePolygonY, border=coastalPlainColor, col=coastalPlainColor)
+	graphics::polygon(polygonX, nonmarinePolygonY, border=coastalPlainColor, col=coastalPlainColor)
 	
 	# Add the partitioning line
-	points(timePoints[-1], correctedNonmarine, type='l', lwd=1.5)
+	graphics::points(timePoints[-1], correctedNonmarine, type='l', lwd=1.5)
 }

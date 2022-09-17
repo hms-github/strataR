@@ -1,0 +1,17 @@
+citHeader("To cite strataR in publications use: ")
+
+citEntry(entry = "Article",
+title          = paste("The structure of the nonmarine fossil record: predictions from a",
+                       "coupled stratigraphic–paleoecological model of a coastal basin."),
+author         = personList(as.person("Steven M. Holland")),
+journal        = "Paleobiology", 
+year           = "2022",
+volume         = "48",
+number         = "3", 
+pages          = "372--396",
+url            = "https://doi.org/10.1017/pab.2022.5", 
+textVersion    = paste("Holland, Steven M. (2022).",
+                       "The structure of the nonmarine fossil record: predictions from a",
+                       "coupled stratigraphic–paleoecological model of a coastal basin", 
+                       "Paleobiology, 48(3), 372-396.")
+)

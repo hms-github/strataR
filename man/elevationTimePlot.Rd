@@ -2,20 +2,27 @@
 % Please edit documentation in R/elevationTimePlot.R
 \name{elevationTimePlot}
 \alias{elevationTimePlot}
-\title{Create a ternary plot}
+\title{Elevation–Time Plot}
 \usage{
 elevationTimePlot(basin, locationKm, setting = c("valley", "interfluve"), ...)
 }
 \arguments{
-\item{\code{TRUE}}{}
-}
-\value{
-\code{TRUE}
+\item{basin}{an object of class \code{\link{basin}}.}
+
+\item{locationKm}{the location in km as a distance from the left edge of the basin}
+
+\item{setting}{a string, either "valley" or "interfluve".}
+
+\item{...}{Optional arguments to be passed to the plot.}
 }
 \description{
-Creates a ternary plot from three variables that sum to 100\%, such as petrographic data in geology. Specifies the labels for the three apexes of the triangle, whether a grid should be shown, and the spacing of the grid lines
+Plot of elevation through time.
+}
+\details{
+Plot showing how the elevation (in m above sea level) at a location in the basin changes over time.
 }
 \examples{
-ternaryPlot(myData, labels=("Q", "F", "L"))
+data(sedBasin)
+elevationTimePlot(sedBasin, locationKm=100, setting="valley")
 
 }

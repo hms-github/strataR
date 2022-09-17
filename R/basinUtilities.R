@@ -1,20 +1,15 @@
-#' Create a ternary plot
-#'
-#' Creates a ternary plot from three variables that sum to 100%, such as petrographic data in geology. Specifies the labels for the three apexes of the triangle, whether a grid should be shown, and the spacing of the grid lines
-#'
-#' @param \code{TRUE}
-#' 
-#' @return \code{TRUE}
-#'
-#' @examples
-#' ternaryPlot(myData, labels=("Q", "F", "L"))
-#'
-
 # ---------------------------------------------------------------------------------------
 ## UTILITY FUNCTIONS
 
 # Obtain the x-index for a position within the basin
-
+indexForPosition <- function(positionKm, marginWidth, deltaX) {
+	# positionKm, marginWidth, and deltaX all in km
+	allPositions <- seq(0, marginWidth, deltaX)
+	deviations <- abs(allPositions - positionKm)
+	index <- which(deviations == min(deviations))
+	index <- index[1]   # in case of a tie, choose the left-most position index
+	return(index)
+}
 
 # Calculate the amount each elevation profile has been deflected by subsidence and eustasy
 # Returns a matrix of deflections with rows being time points (1 is oldest) and columns being positions (1 is leftmost in basin)
@@ -173,17 +168,17 @@ shoreAccommodationPlot <- function(basin, shoreRates) {
 	plot(shoreRates$modelTime, shoreRates$accommodation, type='l', xlab='Model time (m.y.)', ylab='Accommodation rate (m/m.y.)', ylim=c(minRate, maxRate), las=1, lwd=2)
 	
 	# Zero-rate line
-	abline(h=0, col='black')
+	graphics::abline(h=0, col='black')
 	
 	# Subsidence rates at the shore
-	points(shoreRates$modelTime, shoreRates$shoreSubsidence, type='l', col='gray', lty='dotted')
+	graphics::points(shoreRates$modelTime, shoreRates$shoreSubsidence, type='l', col='gray', lty='dotted')
 	
 	# Times in which the shore reverses its direction of movement
 	# Note that this only finds times when the shore position is not changing
 	# If it changes immediately from regression to transgression, or vice versa, without pausing for a time of no change, this will not find that reversal
 	shoreMoveSign <- shoreRates$shoreMovement / abs(shoreRates$shoreMovement)
 	shoreMoveSign[is.nan(shoreMoveSign)] <- 0
-	abline(v=which(shoreMoveSign == 0)*basin$parameters$timeStep, col='gray', lty='dashed')
+	graphics::abline(v=which(shoreMoveSign == 0)*basin$parameters$timeStep, col='gray', lty='dashed')
 }
 
 # Obtain the final x (in km) and y (elevation, in m) coordinates of all shores
@@ -246,18 +241,6 @@ shores <- function(basin, setting=c('valley', 'interfluve')) {
 # UTILITY FUNCTIONS
 # Functions not generally called by user but by other functions
 
-# Used by eustasyGenerator(), subsidenceGenerator(), and sedimentGenerator() to create sinusoidal like waves that are squared off. This has now been subsumed into flexSin() which also handles asymmetry.
-flexSin <- function(x, period=1, amplitude=1, symmetry=0.5, shape=0, phase=c("falling", "rising", "highPoint", "lowPoint")) {
-	midpoint <- 0.5
-	position <- (x/period)%%1
-	position <- phaseScaling(position, phase=phase, symmetry=symmetry)
-	position <- sapply(position, symmetryScaling, symmetry=symmetry)
-	y <- amplitude * sqrt((1+shape^2) / (1+shape^2*cos(position * 2 * pi)^2)) * cos(position * 2 * pi)
-	y <- y - y[1]  # shift curve so that initial y-value is always zero (starts at origin)
-	y
-	return(y)
-}
-
 # Called by flexSin() to allow for asymmetry in the sine wave. Shouldn't be necessary for a user to call this.
 symmetryScaling <- function(x, symmetry=0.5) {
 	midpoint <- 0.5
@@ -286,7 +269,7 @@ phaseScaling <- function(x, phase=c("falling", "rising", "highPoint", "lowPoint"
 	return(xPhased)
 }
 
-# Used by eustasyGenerator(), subsidenceGenerator(), and sedimentGenerator() to create sinusoidal like waves that are squared off. This has now been subsumed into flexSin() which also handles asymmetry.
+# Used by eustasy(), subsidence(), and sediment() to create sinusoidal like waves that are squared off. This has now been subsumed into flexSin() which also handles asymmetry.
 flatSin <- function(x, period=1, amplitude=1, phase=c("falling", "rising", "highPoint", "lowPoint"), shape=0) {
 	phase <- phase[1]
 	
@@ -330,7 +313,7 @@ crossShelfSubsidence <- function(subsRateLeft, subsRateRight, geometry) {
 # Used by generateInitialProfile() and profileForShore(), ultimately by fillBasin()
 height <- function(x, alpha) {
 	shape <- 1  # required by dgamma, but seems to have no effect
-	2 / dgamma(alpha + 2, shape) * (1 - x) ^ (alpha + 1)
+	2 / stats::dgamma(alpha + 2, shape) * (1 - x) ^ (alpha + 1)
 }
 
 # Rescale a Caputo curve in the x-direction
@@ -398,7 +381,7 @@ generateInitialProfile <- function(fallLineX=0, fallLineY=150, shoreX=200, shore
 	topoY <- c(topoNonmarineY, topoDeltaY[-1], topoShelfY[-1])
 
 	# calculate interpolated profile to make the points fall on the x-grid of the model
-	interpolated <- approx(topoX, topoY, xout=seq(fallLineX, marginWidth, deltaX))
+	interpolated <- stats::approx(topoX, topoY, xout=seq(fallLineX, marginWidth, deltaX))
 	return(interpolated)
 }
 
@@ -446,17 +429,17 @@ profileForShore <- function(deflected, shoreX, deltaWidth, marginWidth, deltaX, 
 	# check for NAs
 	if (any(is.na(topoX)) == TRUE) {
 		warning("Unexpected NA in topoX.", call.=FALSE, immediate.=TRUE)
-		# This will cause a problem in the approx() function
+		# This will cause a problem in the stats::approx() function
 	}
 	
 	if (any(is.na(topoY)) == TRUE) {
 		warning("Unexpected NA in topoX.", call.=FALSE, immediate.=TRUE)
-		# These points will be ignored in the approx() function, but would be good to know if this happens.
+		# These points will be ignored in the stats::approx() function, but would be good to know if this happens.
 	}
 
 	# calculate interpolated profile to make the points fall on the x-grid of the model
 	interpPoints <- seq(fallLineX, marginWidth, deltaX)
-	interpolated <- approx(topoX, topoY, xout=interpPoints, rule=2, ties='ordered')
+	interpolated <- stats::approx(topoX, topoY, xout=interpPoints, rule=2, ties='ordered')
 
 	# prevent marine erosion
 	if (any(is.na(interpolated$y)) == TRUE) {
@@ -511,15 +494,23 @@ optimalProfile <- function(deflected, previousShoreX, deltaWidth, marginWidth, d
 	bestShoreIndex <- which(volumeDeviation == min(volumeDeviation))
 	bestShoreIndex <- bestShoreWarnings(bestShoreIndex=bestShoreIndex, sedVolumes=sedVolumes, shore=shore)
 	bestShore <- shore[bestShoreIndex]
-	windowPadding <- 2.0   # was 1.0
+	windowPadding <- 1.0   # was 2.0 (if this is too large, local minima may result)
 	searchWindow <- c(bestShore-windowPadding, bestShore+windowPadding)
 	
 	# use initial pass to search for optimal shore
-	optimalFit <- optimize(profileFit, searchWindow, deflected=deflected, deltaWidth=deltaWidth, marginWidth=marginWidth, deltaX=deltaX, nonMarAlpha=nonMarAlpha, marineAlpha=marineAlpha, targetSedVolume=targetSedVolume, fallLineY=fallLineY)
+	optimalFit <- stats::optimize(profileFit, searchWindow, deflected=deflected, deltaWidth=deltaWidth, marginWidth=marginWidth, deltaX=deltaX, nonMarAlpha=nonMarAlpha, marineAlpha=marineAlpha, targetSedVolume=targetSedVolume, fallLineY=fallLineY)
 	optimalShore <- optimalFit$minimum
 	optimizedProfile <- profileForShore(deflected, optimalShore, deltaWidth, marginWidth, deltaX, nonMarAlpha, marineAlpha, targetSedVolume, fallLineY)
 	optimalTopo <- optimizedProfile$topoProfile
 	optimalVolume <- optimizedProfile$sedVolume
+	
+	# DEBUGGING ONLY FOR PARTITIONING SPIKES / NEAR-ZERO SEDIMENTATION
+	# REFLECTS stats::optimize() FINDING A LOCAL MINIMUM
+	if (optimalVolume / targetSedVolume < 0.5) {
+		message(paste("targetSedVolume:", targetSedVolume, "; optimalVolume:", optimalVolume))
+		fileName = paste(round(stats::rnorm(1)*100+1000), ".RData", sep="")
+		save(profileFit, searchWindow, deflected, deltaWidth, marginWidth, deltaX, nonMarAlpha, marineAlpha, targetSedVolume, fallLineY=fallLineY, shore, sedVolumes, volumeDeviation, previousShoreX, bestShoreIndex, bestShore, windowPadding, optimalFit, optimalShore, optimizedProfile, optimalTopo, optimalVolume, file=fileName) 
+	}
 
 	results <- list(shore=optimalShore, sedimentVolume=optimalVolume, fittedProfile=optimalTopo)
 	return(results)
@@ -572,7 +563,7 @@ integrityCheck <- function(geometry, subsidence, eustasy, sediment) {
 # Used by optimalProfile()
 bestShoreWarnings <- function(bestShoreIndex, sedVolumes, shore) {
 	if (length(bestShoreIndex) > 1) {
-		if (median(sedVolumes[bestShoreIndex]) < 0.0001) {
+		if (stats::median(sedVolumes[bestShoreIndex]) < 0.0001) {
 			# In some cases, multiple best shore indices are found, all with a sediment 
 			# volume of 0. If the target sediment volume is small, the next highest index
 			# might have too large of a sediment volume. Rather than deposit no sediment,
@@ -600,97 +591,4 @@ bestShoreWarnings <- function(bestShoreIndex, sedVolumes, shore) {
 	}
 	
 	return(bestShoreIndex)
-}
-
-
-
-
-# ---------------------------------------------------------------------------------------
-# DEAD CODE
-# Code that is apparently not called by any other function or not called by user
-# Consider archiving
-
-# [DEAD]
-setSedimentationParameters <- function(nonMarAlpha, marineAlpha, sedimentVolume) {
-	if (missing(nonMarAlpha)) {
-		warning("Argument nonMarAlpha must be given a value", call.=FALSE, immediate.=TRUE)
-	}
-	
-	if (missing(marineAlpha)) {
-		warning("Argument marineAlpha must be given a value", call.=FALSE, immediate.=TRUE)
-	}
-	
-	if (missing(sedimentVolume)) {
-		warning("Argument sedimentVolume must be given a value", call.=FALSE, immediate.=TRUE)
-	}
-	
-	results <- list(nonMarAlpha=nonMarAlpha, marineAlpha=marineAlpha, sedimentVolume=sedimentVolume)
-	return(results)
-}
-
-
-## DOWNSAMPLING
-
-# Reduce the spatial sampling of a basin to 1 km, to reduce file sizes
-# [DEAD]
-downsampleBasin <- function(basin) {
-	xSpacing <- 1  # km
-	xIndices <- 1:length(basin$positions)
-	scaling <- xSpacing / basin$parameters$deltaX
-	subsetIndices <- seq(1, max(xIndices), scaling)
-	
-	basin$parameters$deltaX <- xSpacing
-	basin$positions <- basin$positions[subsetIndices]
-	basin$elevationProfileValley <- basin$elevationProfileValley[ , subsetIndices]
-	basin$elevationProfileInterfluve <- basin$elevationProfileInterfluve[ , subsetIndices]
-	basin$sedimentAccumulatedValley <- basin$sedimentAccumulatedValley[ , subsetIndices]
-	basin$sedimentAccumulatedInterfluve <- basin$sedimentAccumulatedInterfluve[ , subsetIndices]
-	basin$hiatusValley <- basin$hiatusValley[ , subsetIndices]
-	basin$hiatusInterfluve <- basin$hiatusInterfluve[ , subsetIndices]
-
-	return(basin)
-}
-
-# Reduce the spatial sampling of subsidence to 1 km
-# [DEAD]
-downsampleSubsidence <- function(basin, subsidence) {
-	xSpacing <- 1  # km
-	xIndices <- 1:length(basin$positions)
-	scaling <- xSpacing / basin$parameters$deltaX
-	subsetIndices <- seq(1, max(xIndices), scaling)
-#[SUBSIDENCE-FIX] - WILL NOT BE DONE (DEAD CODE)
-	subsidence$rates <- subsidence$rates[subsetIndices]
-	return(subsidence)
-}
-	
-# Update the geometry to reflect the downsampling
-# [DEAD]
-downsampleGeometry <- function(geometry) {
-	geometry$deltaX <- 1  # km
-	return(geometry)
-}
-
-# Obtain the elevation at a position in the basin, based on the record of accumulated sediment at that position
-# [DEAD]
-elevationPosition <- function(sedimentAccumulated) {
-	stratPosition <- apply(sedimentAccumulated, MARGIN=2, FUN=cumsum)
-	return(stratPosition)
-}
-
-# [DEAD]
-# Return a vector of all subsidence rates through time at a location in the basin
-subsidenceRatesAtLocation <- function(basin, locationKm) {
-	locations <- seq(0, basin$parameter$marginWidth, basin$parameters$deltaX)
-	
-	# find the closest point, and in the case of a tie, get the first match
-	locationIndex <- which(abs(locations-locationKm) == min(abs(locations-locationKm)))[1]
-	
-	geometry <- setGeometry(fallLineX=basin$parameters$fallLineX, fallLineY=basin$parameters$fallLineY, shoreX=basin$parameters$shoreX, shoreY=basin$parameters$shoreY, deltaWidth=basin$parameters$deltaWidth, marginWidth=basin$parameters$marginWidth, deltaToeY=basin$parameters$deltaToe, deltaX=basin$parameters$deltaX)
-#[SUBSIDENCE-FIX] - WILL NOT BE DONE (DEAD CODE)
-	subsidence <- crossShelfSubsidence(subsRateLeft=basin$parameters$subsRateLeft, subsRateRight=basin$parameters$subsRateRight, geometry=geometry)
-#[SUBSIDENCE-FIX] - WILL NOT BE DONE (DEAD CODE)
-	subsidenceAtIndex <- subsidence$rates[locationIndex]
-	
-	subsidenceRates <- rep(subsidenceAtIndex, length(basin$timePoints))
-	return(subsidenceRates)
 }

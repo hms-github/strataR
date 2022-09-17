@@ -1,15 +1,19 @@
-#' Create a ternary plot
+#' @title Elevation–Time Plot
 #'
-#' Creates a ternary plot from three variables that sum to 100%, such as petrographic data in geology. Specifies the labels for the three apexes of the triangle, whether a grid should be shown, and the spacing of the grid lines
+#' @description Plot of elevation through time.
 #'
-#' @param \code{TRUE}
+#' @details Plot showing how the elevation (in m above sea level) at a location in the basin changes over time. 
+#'
+#' @param basin an object of class [`basin`].
+#' @param locationKm the location in km as a distance from the left edge of the basin
+#' @param setting a string, either "valley" or "interfluve".
+#' @param ... Optional arguments to be passed to the plot.
 #'
 #' @export
-#' 
-#' @return \code{TRUE}
 #'
 #' @examples
-#' ternaryPlot(myData, labels=("Q", "F", "L"))
+#' data(sedBasin)
+#' elevationTimePlot(sedBasin, locationKm=100, setting="valley")
 #'
 
 elevationTimePlot <- function(basin, locationKm, setting=c('valley', 'interfluve'), ...) {
@@ -17,5 +21,5 @@ elevationTimePlot <- function(basin, locationKm, setting=c('valley', 'interfluve
 	elevation <- elevationAtLocation(basin=basin, locationKm=locationKm, setting=setting)
 	modelTime <- basin$timePoints
 	plot(modelTime, elevation, type='l', lwd=2, col='brown', las=1, xlab='Model time (m.y.)', ylab='Elevation (m)', ...)
-	abline(h=0, lty='dotted', col='gray')
+	graphics::abline(h=0, lty='dotted', col='gray')
 }

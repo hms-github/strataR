@@ -2,7 +2,7 @@
 % Please edit documentation in R/addHiatuses.R
 \name{addHiatuses}
 \alias{addHiatuses}
-\title{Create a ternary plot}
+\title{Hiatuses}
 \usage{
 addHiatuses(
   basin,
@@ -13,15 +13,27 @@ addHiatuses(
 )
 }
 \arguments{
-\item{\code{TRUE}}{}
-}
-\value{
-\code{TRUE}
+\item{basin}{an object of class \code{\link{basin}}.}
+
+\item{setting}{a string, either "valley" or "interfluve".}
+
+\item{col}{the color of the hiatus line segments.}
+
+\item{lwd}{the line weight of the hiatus line segments.}
+
+\item{...}{Optional arguments to style how the hiatus line segments are displayed.}
 }
 \description{
-Creates a ternary plot from three variables that sum to 100\%, such as petrographic data in geology. Specifies the labels for the three apexes of the triangle, whether a grid should be shown, and the spacing of the grid lines
+Adds hiatuses to a basin plot.
+}
+\details{
+Hiatuses are added to a basin plot. These may be subaerial unconformities
+(typically within coastal plain deposits) or downlap surfaces (typically within
+marine deposits).
 }
 \examples{
-ternaryPlot(myData, labels=("Q", "F", "L"))
+data(sedBasin)
+plot(sedBasin)
+addHiatuses(sedBasin, setting='valley')
 
 }
