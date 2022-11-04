@@ -9,8 +9,10 @@ An R package for simulating the nonmarine stratigraphic and fossil record
 You can install the dev version of strataR from Github with: 
 
 ``` r
-devtools::install_github("hms-github/strataR")
+devtools::install_github("hms-github/strataR", build_vignettes=TRUE)
 ```
+
+Building the vignettes will take a few minutes.
 
 ## Instructions
 
