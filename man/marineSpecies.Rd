@@ -75,7 +75,7 @@ species.}
 \value{
 marineSpecies returns an object of class "marineSpecies", which as print, summary, and plot methods.
 
-A marine species object consists of a list of 8 items, with each row corresponding to one species. \code{id} is a unique identifier corresponding to each species; this identifier starts at 1 and increases sequentially as each new species originates. \code{ancestor} corresponds to the id number of the species that gave rise to a species; its value is 0 for all of the seed species that are used to start the random-branching model. \code{origination} and \code{extinction} are the times of origination and extinction, in m.y. \code{PD} is the preferred depth (water depth, in m), that is, the water depth at which a species is most likely to occur. \code{DT} is the depth tolerance (in m) reflecting the standard deviation of the species response curve; larger values correspond to species found over a greater range of water depths. \code{PA} is the peak abundance, corresponding to the probability of occurrence (expressed as a percentage; i.e., 100 indicates a 1.0 probability) of a species at its preferred water depth.
+A marine species object consists of a data frame with seven columns; each row corresponds to one species. \code{id} is a unique identifier corresponding to each species; this identifier starts at 1 and increases sequentially as each new species originates. \code{ancestor} corresponds to the id number of the species that gave rise to a species; its value is 0 for all of the seed species that are used to start the random-branching model. \code{origination} and \code{extinction} are the times of origination and extinction, in m.y. \code{PD} is the preferred depth (water depth, in m), that is, the water depth at which a species is most likely to occur. \code{DT} is the depth tolerance (in m) reflecting the standard deviation of the species response curve; larger values correspond to species found over a greater range of water depths. \code{PA} is the peak abundance, corresponding to the probability of occurrence (expressed as a percentage; i.e., 100 indicates a 1.0 probability) of a species at its preferred water depth.
 }
 \description{
 Create a marine species object.
@@ -87,5 +87,8 @@ Creates a marine species object, which records the ancestor of a species, its ti
 spec <- marineSpecies(timeStep=0.001, extRate=0.25, startingSpecies=1000, 
   durationMy=5.0, minPD=0, maxPD=200, meanDT=10, sdDT=2, meanLogPA=log(25), 
   sdLogPA=log(5), maxPA=100)
+summary(spec)
+print(spec)
+plot(spec)
 
 }

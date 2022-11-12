@@ -22,11 +22,14 @@
 #' 
 #' @return `column` returns an object of class "column", which includes print and summary methods.
 #' 
-#' A column object consists of a list of five vectors, for the model time step (`modelTime`), the thickness of sediment accumulated, in meters (`thickness`), the stratigraphic position of each layer of sediment, in meters above the base of the column (`stratPosition`), the facies (floodplain or channel), and the elevation in meters above sea level at which deposition took place.
+#' A column object consists of a data frame with five columns; each row corresponds to one sedimentary deposit. `modelTime` is the model time step in millions of years, `thickness` is the thickness of the deposit in meters, `stratPosition` is the height (in meters) within the stratigraphic column of the base of the deposit, `facies` is the facies of the deposit (floodplain, channel, or marine), and `elevation` is the elevation (in meters above sea level) at which the deposit accumulated.
 #'
 #' @examples
 #' data(sedBasin)
-#' column(sedBasin, locationKm=200, setting='valley', pChannel=0.1, channelDepth=2)
+#' colu <- column(sedBasin, locationKm=200, setting='valley', pChannel=0.1, channelDepth=2)
+#' summary(colu)
+#' print(colu)
+#' plot(colu)
 #' 
 #' @rdname column
 #' @export column

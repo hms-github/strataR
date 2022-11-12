@@ -65,5 +65,8 @@ Creates a eustasy object, which is needed to create a basin object. A eustasy ob
 geom <- geometry(fallLineY=150, shoreX=200, deltaWidth=100, deltaToeY=-100, 
   marginWidth=600, nonMarAlpha=0.5, marineAlpha=2.0, duration=3.0, timeStep=0.01)
 eust <- eustasy(geometry=geom, netRise=30.0)	
+summary(eust)
+print(eust)
+plot(eust)
 
 }

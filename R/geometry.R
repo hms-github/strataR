@@ -23,6 +23,8 @@
 #' @examples
 #' geom <- geometry(fallLineY=150, shoreX=200, deltaWidth=100, deltaToeY=-100, 
 #'   marginWidth=600, nonMarAlpha=0.5, marineAlpha=2.0, duration=3.0, timeStep=0.01)
+#' summary(geom)
+#' print(geom)
 #' 
 #' @rdname geometry
 #' @export geometry

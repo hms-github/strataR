@@ -52,7 +52,7 @@ present, so 1-pChannel can be considered the probability of floodplain facies.}
 \value{
 \code{column} returns an object of class "column", which includes print and summary methods.
 
-A column object consists of a list of five vectors, for the model time step (\code{modelTime}), the thickness of sediment accumulated, in meters (\code{thickness}), the stratigraphic position of each layer of sediment, in meters above the base of the column (\code{stratPosition}), the facies (floodplain or channel), and the elevation in meters above sea level at which deposition took place.
+A column object consists of a data frame with five columns; each row corresponds to one sedimentary deposit. \code{modelTime} is the model time step in millions of years, \code{thickness} is the thickness of the deposit in meters, \code{stratPosition} is the height (in meters) within the stratigraphic column of the base of the deposit, \code{facies} is the facies of the deposit (floodplain, channel, or marine), and \code{elevation} is the elevation (in meters above sea level) at which the deposit accumulated.
 }
 \description{
 Create a stratigraphic column from a basin.
@@ -62,6 +62,9 @@ Create a stratigraphic column from anywhere in the basin by specifying the locat
 }
 \examples{
 data(sedBasin)
-column(sedBasin, locationKm=200, setting='valley', pChannel=0.1, channelDepth=2)
+colu <- column(sedBasin, locationKm=200, setting='valley', pChannel=0.1, channelDepth=2)
+summary(colu)
+print(colu)
+plot(colu)
 
 }

@@ -30,7 +30,10 @@
 #' @examples
 #' data(marcolu)
 #' data(marspec)
-#' marineOccurrences(column=marcolu, marineSpecies=marspec, sampleSpacing=1.0)
+#' maroccu <- marineOccurrences(column=marcolu, marineSpecies=marspec, sampleSpacing=1.0)
+#' summary(maroccu)
+#' print(maroccu)
+#' plot(maroccu, col=marcolu, marineSpecies=marspec)
 #'
 marineOccurrences <- function(column, marineSpecies, sampleSpacing=0.5) {
 	# NOTE: because columns are in terms of waterDepth, anything that is below sea level will have a negative value, so must be converted to a positive value to convert to water depth	

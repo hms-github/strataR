@@ -87,7 +87,7 @@ equally in both facies.}
 \value{
 species returns an object of class "species", which as print, summary, and plot methods.
 
-A species object consists of a list of 8 items, with each row corresponding to one species. \code{id} is a unique identifier corresponding to each species; this identifier starts at 1 and increases sequentially as each new species originates. \code{ancestor} corresponds to the id number of the species that gave rise to a species; its value is 0 for all of the seed species that are used to start the random-branching model. \code{origination} and \code{extinction} are the times of origination and extinction, in m.y. \code{PE} is the preferred environment (elevation, in m), that is, the elevation at which a species is most likely to occur. \code{ET} is the environmental tolerance (in m) reflecting the standard deviation of the species response curve; larger values correspond to species found over a greater range of elevations. \code{PA} is the peak abundance, corresponding to the probability of occurrence (expressed as a percentage; i.e., 100 indicates a 1.0 probability) of a species at its preferred elevation. \code{Aff} reflects the affinity a species has for being preserved in channel vs. floodplain facies.
+A species object is a data frame with eight columns; each row corresponds to one species. \code{id} is a unique identifier corresponding to each species; this identifier starts at 1 and increases sequentially as each new species originates. \code{ancestor} corresponds to the id number of the species that gave rise to a species; its value is 0 for all of the seed species that are used to start the random-branching model. \code{origination} and \code{extinction} are the times of origination and extinction, in m.y. \code{PE} is the preferred environment (elevation, in m), that is, the elevation at which a species is most likely to occur. \code{ET} is the environmental tolerance (in m) reflecting the standard deviation of the species response curve; larger values correspond to species found over a greater range of elevations. \code{PA} is the peak abundance, corresponding to the probability of occurrence (expressed as a percentage; i.e., 100 indicates a 1.0 probability) of a species at its preferred elevation. \code{Aff} reflects the affinity a species has for being preserved in channel vs. floodplain facies.
 }
 \description{
 Create an object of class "species"
@@ -98,5 +98,7 @@ Creates a species object, which records the ancestor of a species, its times of 
 \examples{
 spec <- species(timeStep=0.001, extRate=0.25, startingSpecies=1000, durationMy=5.0, 
   minPE=0, maxPE=200, meanET=10, sdET=2, meanLogPA=log(25), sdLogPA=log(5), maxPA=100)
+print(spec)
+plot(spec)
 
 }

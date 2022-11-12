@@ -28,6 +28,9 @@
 #' eust <- eustasy(geometry=geom, netRise=30.0)	
 #' sedi <- sediment(geometry=geom, startingVolume=120, netIncrease=120)
 #' sedBasin <- basin(geometry=geom, subsidence=subs, eustasy=eust, sediment=sedi)
+#' summary(sedBasin)
+#' print(sedBasin)
+#' plot(sedBasin, setting="valley")
 #' 
 #' @rdname basin
 #' @export basin

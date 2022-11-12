@@ -69,5 +69,8 @@ Creates a sediment object, which is needed to create a basin object. A sediment 
 geom <- geometry(fallLineY=150, shoreX=200, deltaWidth=100, deltaToeY=-100, 
   marginWidth=600, nonMarAlpha=0.5, marineAlpha=2.0, duration=3.0, timeStep=0.01)
 sedi <- sediment(geometry=geom, startingVolume=60)
+print(sedi)
+summary(sedi)
+plot(sedi)
 
 }

@@ -55,7 +55,7 @@ the occurrences plot.}
 \value{
 'occurrences' returns an occurrences object, which includes print, summary, and plot methods.
 
-An occurrences object consists of a list of three items, each row corresponding to one occurrence of a fossil species. \code{modelTime} is the age (in m.y.) of the occurrence, \code{stratPosition} is the position in meters above the base of column in which the species occurred, and \code{speciesId} is the id number of the species that occurred. This species id can be cross-referenced with the species object to find the times of origination and extinction, as well as the ecological and preservational characteristics of that species.
+An occurrences object consists of a data frame with three columns; each row corresponds to one occurrence of a fossil species. \code{modelTime} is the age (in m.y.) of the occurrence, \code{stratPosition} is the position in meters above the base of column in which the species occurred, and \code{speciesId} is the id number of the species that occurred. This species id can be cross-referenced with the species object to find the times of origination and extinction, as well as the ecological and preservational characteristics of that species.
 }
 \description{
 Generate occurrences of non-marine fossils in a stratigraphic column.
@@ -66,6 +66,9 @@ Given a stratigraphic column and a set of species, \code{occurrences} will sampl
 \examples{
 data(coluValley)
 data(spec)
-occurrences(column=coluValley, species=spec, sampleSpacing=1.0)
+occu <- occurrences(column=coluValley, species=spec, sampleSpacing=1.0)
+summary(occu)
+print(occu)
+plot(occu, col=coluValley, species=spec)
 
 }

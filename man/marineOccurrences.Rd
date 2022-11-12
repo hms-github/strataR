@@ -66,6 +66,9 @@ Given a stratigraphic column and a set of species, \code{marineOccurrences} will
 \examples{
 data(marcolu)
 data(marspec)
-marineOccurrences(column=marcolu, marineSpecies=marspec, sampleSpacing=1.0)
+maroccu <- marineOccurrences(column=marcolu, marineSpecies=marspec, sampleSpacing=1.0)
+summary(maroccu)
+print(maroccu)
+plot(maroccu, col=marcolu, marineSpecies=marspec)
 
 }
