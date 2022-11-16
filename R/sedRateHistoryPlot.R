@@ -24,7 +24,7 @@ sedRateHistoryPlot <- function(column, stratBin=10, yAxisLabels=TRUE, ...) {
 		ylab = c('')
 	}
 	yLimits <- c(min(column$stratPosition), max(column$stratPosition))
-	plot(rates$sedRate / 1000, rates$stratPosition, las=1, xlab='Sed. Rate (m/kyr)', ylab=ylab, ylim=yLimits, type='o', col='brown', pch=16, axes=yAxisLabels, frame.plot=yAxisLabels, ...)
+	plot(rates$sedRate / 1000, rates$stratPosition, las=1, xlab='Sed. Rate (m/kyr)', ylab=ylab, ylim=yLimits, type='o', pch=16, axes=yAxisLabels, frame.plot=yAxisLabels, ...)
 	if (yAxisLabels == FALSE) {
 		graphics::axis(1)
 	}

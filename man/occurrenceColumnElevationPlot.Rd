@@ -8,6 +8,9 @@ occurrenceColumnElevationPlot(
   occurrences,
   column,
   species,
+  occurrenceColor = "blue",
+  rangeColor = "blue",
+  extantColor = "gray",
   peakExtTimeMy = NA,
   extDurationMy = NA,
   orderedByLad = TRUE
@@ -19,6 +22,8 @@ occurrenceColumnElevationPlot(
 \item{column}{an object of class \code{\link{column}}.}
 
 \item{species}{an object of class \code{\link{species}}.}
+
+\item{occurrenceColor, rangeColor, extantColor}{specify the color of the occurrence points, the preserved range of species, and the times in which the species was extant, including the time of origination and extinction.}
 
 \item{peakExtTimeMy}{a numeric value indicating when a mass extinction reached its peak
 (in m.y.), if one was simulated. Use NA (the default) if no extinction was simulated.}

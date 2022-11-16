@@ -9,6 +9,7 @@
 #' @param sampleSpacing a number indicating the stratigraphic interval (in m) at which the  
 #'   column will be sampled for fossil species.
 #' @param x,object an object of class `occurrences`.
+#' @param occurrenceColor,rangeColor,extantColor specify the color of the occurrence points, the preserved range of species, and the times in which the species was extant, including the time of origination and extinction.
 #' @param peakExtTimeMy a numeric value (in m.y.) specifying the time of peak mass  
 #'   extinction used; used in the occurrences plot.
 #' @param extDurationMy a numeric value (in m.y.) specifying the duration of mass  
@@ -90,7 +91,7 @@ occurrences <- function(column, species, sampleSpacing=0.5) {
 #' @rdname occurrences
 #' @export
 
-plot.occurrences <- function(x, column, species, peakExtTimeMy=NA, extDurationMy=NA, extinctionColor='red', orderedByLad=TRUE, yAxisLabels=TRUE, ...) {
+plot.occurrences <- function(x, column, species, occurrenceColor='blue', rangeColor='blue', extantColor='gray', peakExtTimeMy=NA, extDurationMy=NA, extinctionColor='red', orderedByLad=TRUE, yAxisLabels=TRUE, ...) {
 	# determine fads and lads
 	fadsLads <- fadLad(x)
 	if (orderedByLad == TRUE) {
@@ -100,7 +101,6 @@ plot.occurrences <- function(x, column, species, peakExtTimeMy=NA, extDurationMy
 	}
 	rows <- seq(1:length(fadsLads$fad))
 	
-	occurrenceColor <- grDevices::rgb(0, 0, 1, 0.5)
 	ylab = 'Stratigraphic Position (m)'
 	if (yAxisLabels == FALSE) {
 		ylab = ''
@@ -123,13 +123,13 @@ plot.occurrences <- function(x, column, species, peakExtTimeMy=NA, extDurationMy
 		timeExtinction  <- species$extinction[theSpecies]
 		horizonOrigination <- stratPositionForAge(timeOrigination, column)
 		horizonExtinction <- stratPositionForAge(timeExtinction, column)
-		graphics::points(i, horizonOrigination, pch=3, cex=0.5, col='gray')
-		graphics::points(i, horizonExtinction, pch=3, cex=0.5, col='gray')
-		graphics::segments(i, horizonOrigination, i, horizonExtinction, lwd=0.5, lty='dotted', col='gray')
+		graphics::points(i, horizonOrigination, pch=3, cex=0.5, col=extantColor)
+		graphics::points(i, horizonExtinction, pch=3, cex=0.5, col=extantColor)
+		graphics::segments(i, horizonOrigination, i, horizonExtinction, lwd=0.5, lty='dotted', col=extantColor)
 	}
 
 	# add ranges
-	graphics::segments(rows, fadsLads$fad, rows, fadsLads$lad, col='blue', lwd=1)
+	graphics::segments(rows, fadsLads$fad, rows, fadsLads$lad, col=rangeColor, lwd=1)
 
 	# add the occurrences to the plot
 	for (i in 1:length(fadsLads$occurringSpecies)) {

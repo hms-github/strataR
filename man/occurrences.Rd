@@ -13,6 +13,9 @@ occurrences(column, species, sampleSpacing = 0.5)
   x,
   column,
   species,
+  occurrenceColor = "blue",
+  rangeColor = "blue",
+  extantColor = "gray",
   peakExtTimeMy = NA,
   extDurationMy = NA,
   extinctionColor = "red",
@@ -34,6 +37,8 @@ occurrences(column, species, sampleSpacing = 0.5)
 column will be sampled for fossil species.}
 
 \item{x, object}{an object of class \code{occurrences}.}
+
+\item{occurrenceColor, rangeColor, extantColor}{specify the color of the occurrence points, the preserved range of species, and the times in which the species was extant, including the time of origination and extinction.}
 
 \item{peakExtTimeMy}{a numeric value (in m.y.) specifying the time of peak mass
 extinction used; used in the occurrences plot.}

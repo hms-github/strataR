@@ -26,5 +26,5 @@ elevationHistoryPlot <- function(column, yAxisLabels=TRUE, ...) {
 		graphics::axis(1)
 	}
 	graphics::abline(v=0, col='gray', lty='dotted')
-	graphics::points(column$elevation, column$stratPosition, type='l', lwd=1.5, col='chartreuse4')
+	graphics::points(column$elevation, column$stratPosition, type='l', lwd=1.5)
 }

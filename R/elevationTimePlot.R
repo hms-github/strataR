@@ -20,6 +20,6 @@ elevationTimePlot <- function(basin, locationKm, setting=c('valley', 'interfluve
 	setting <- match.arg(setting)
 	elevation <- elevationAtLocation(basin=basin, locationKm=locationKm, setting=setting)
 	modelTime <- basin$timePoints
-	plot(modelTime, elevation, type='l', lwd=2, col='brown', las=1, xlab='Model time (m.y.)', ylab='Elevation (m)', ...)
+	plot(modelTime, elevation, type='l', lwd=2, las=1, xlab='Model time (m.y.)', ylab='Elevation (m)', ...)
 	graphics::abline(h=0, lty='dotted', col='gray')
 }

@@ -9,6 +9,7 @@
 #' @param occurrences an object of class [`occurrences`].
 #' @param column an object of class [`column`].
 #' @param species an object of class [`species`].
+#' @param occurrenceColor,rangeColor,extantColor specify the color of the occurrence points, the preserved range of species, and the times in which the species was extant, including the time of origination and extinction.
 #' @param peakExtTimeMy a numeric value indicating when a mass extinction reached its peak  
 #'   (in m.y.), if one was simulated. Use NA (the default) if no extinction was simulated.
 #' @param extDurationMy a numeric value indicating when the duration of a mass extinction  
@@ -26,7 +27,7 @@
 #' occurrenceColumnElevationPlot(occurrences=occu, column=coluValley, species=spec)
 #'
 
-occurrenceColumnElevationPlot <- function(occurrences, column, species, peakExtTimeMy=NA, extDurationMy=NA, orderedByLad=TRUE) {
+occurrenceColumnElevationPlot <- function(occurrences, column, species, occurrenceColor='blue', rangeColor='blue', extantColor='gray', peakExtTimeMy=NA, extDurationMy=NA, orderedByLad=TRUE) {
 	opar <- graphics::par(no.readonly = TRUE)
 	leftDivider <- 0.20   # separates ranges from elevation plot
 	rightDivider <- 0.80  # separates elevation plot from strat column
@@ -37,7 +38,7 @@ occurrenceColumnElevationPlot <- function(occurrences, column, species, peakExtT
 	
 	# Middle panel: Range chart
 	graphics::par(fig=c(leftDivider, rightDivider, 0, 1), mar=c(5, 0, 4, 0) + 0.1, new=TRUE)
-	plot(occurrences, column=column, species=species, peakExtTimeMy=peakExtTimeMy, extDurationMy=extDurationMy, orderedByLad=orderedByLad, yAxisLabels=FALSE)
+	plot(occurrences, column=column, species=species, occurrenceColor=occurrenceColor, rangeColor=rangeColor, extantColor=extantColor, peakExtTimeMy=peakExtTimeMy, extDurationMy=extDurationMy, orderedByLad=orderedByLad, yAxisLabels=FALSE)
 	
 	# Right panel: elevation plot
 	graphics::par(fig=c(rightDivider, 1, 0, 1), mar=c(5, 0, 4, 2) + 0.1, new=TRUE)

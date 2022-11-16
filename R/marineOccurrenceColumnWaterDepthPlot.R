@@ -9,6 +9,7 @@
 #' @param marineOccurrences an object of class [`marineOccurrences`].
 #' @param column an object of class [`column`].
 #' @param marineSpecies an object of class [`marineSpecies`].
+#' @param occurrenceColor,rangeColor,extantColor specify the color of the occurrence points, the preserved range of species, and the times in which the species was extant, including the time of origination and extinction.
 #' @param peakExtTimeMy a numeric value indicating when a mass extinction reached its peak  
 #'   (in m.y.), if one was simulated. Use NA (the default) if no extinction was simulated.
 #' @param extDurationMy a numeric value indicating when the duration of a mass extinction  
@@ -27,7 +28,7 @@
 #'   marineSpecies=marspec) 
 #'
 
-marineOccurrenceColumnWaterDepthPlot <- function(marineOccurrences, column, marineSpecies, peakExtTimeMy=NA, extDurationMy=NA, orderedByLad=TRUE) {
+marineOccurrenceColumnWaterDepthPlot <- function(marineOccurrences, column, marineSpecies, occurrenceColor='blue', rangeColor='blue', extantColor='gray', peakExtTimeMy=NA, extDurationMy=NA, orderedByLad=TRUE) {
 	opar <- graphics::par(no.readonly = TRUE)
 	leftDivider <- 0.20   # separates ranges from waterDepth plot
 	rightDivider <- 0.80  # separates waterDepth plot from strat column
@@ -38,7 +39,7 @@ marineOccurrenceColumnWaterDepthPlot <- function(marineOccurrences, column, mari
 	
 	# Middle panel: range chart
 	graphics::par(fig=c(leftDivider, rightDivider, 0, 1), mar=c(5, 0, 4, 0) + 0.1, new=TRUE)
-	plot(marineOccurrences, column=column, marineSpecies=marineSpecies, peakExtTimeMy=peakExtTimeMy, extDurationMy=extDurationMy, orderedByLad=orderedByLad, yAxisLabels=FALSE)
+	plot(marineOccurrences, column=column, marineSpecies=marineSpecies, occurrenceColor=occurrenceColor, rangeColor=rangeColor, extantColor=extantColor, peakExtTimeMy=peakExtTimeMy, extDurationMy=extDurationMy, orderedByLad=orderedByLad, yAxisLabels=FALSE)
 	
 	# Right panel: water depth plot
 	graphics::par(fig=c(rightDivider, 1, 0, 1), mar=c(5, 0, 4, 2) + 0.1, new=TRUE)
