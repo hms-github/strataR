@@ -1,3 +1,7 @@
+# strataR 0.3.5
+
+* Fixed bug in completeness() that would produce nonsensical percentages.
+
 # strataR 0.3.4
 
 * Colors of occurrence points, fossil ranges, and times in which species is extant can now be specified.

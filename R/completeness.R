@@ -18,7 +18,7 @@
 #'
 
 completeness <- function(occurrences, species) {
-	totalSpecies <- length(species)	
+	totalSpecies <- length(species$id)	
 	tallies <- table(occurrences$speciesId)
 	occurringSpecies <- length(tallies)
 	singletons <- length(tallies[tallies == 1])
