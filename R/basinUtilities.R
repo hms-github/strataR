@@ -504,13 +504,30 @@ optimalProfile <- function(deflected, previousShoreX, deltaWidth, marginWidth, d
 	optimalTopo <- optimizedProfile$topoProfile
 	optimalVolume <- optimizedProfile$sedVolume
 	
-	# DEBUGGING ONLY FOR PARTITIONING SPIKES / NEAR-ZERO SEDIMENTATION
-	# REFLECTS stats::optimize() FINDING A LOCAL MINIMUM
+	# in case a local minimum was found, decrease the search window and try again
 	if (optimalVolume / targetSedVolume < 0.5) {
-		message(paste("targetSedVolume:", targetSedVolume, "; optimalVolume:", optimalVolume))
-		fileName = paste(round(stats::rnorm(1)*100+1000), ".RData", sep="")
-		save(profileFit, searchWindow, deflected, deltaWidth, marginWidth, deltaX, nonMarAlpha, marineAlpha, targetSedVolume, fallLineY=fallLineY, shore, sedVolumes, volumeDeviation, previousShoreX, bestShoreIndex, bestShore, windowPadding, optimalFit, optimalShore, optimizedProfile, optimalTopo, optimalVolume, file=fileName) 
+		message("local minimum encountered; attempting to correct")
+		windowPadding <- windowPadding / 2   
+		searchWindow <- c(bestShore-windowPadding, bestShore+windowPadding)
+		optimalFit <- stats::optimize(profileFit, searchWindow, deflected=deflected, deltaWidth=deltaWidth, marginWidth=marginWidth, deltaX=deltaX, nonMarAlpha=nonMarAlpha, marineAlpha=marineAlpha, targetSedVolume=targetSedVolume, fallLineY=fallLineY)
+		optimalShore <- optimalFit$minimum
+		optimizedProfile <- profileForShore(deflected, optimalShore, deltaWidth, marginWidth, deltaX, nonMarAlpha, marineAlpha, targetSedVolume, fallLineY)
+		optimalTopo <- optimizedProfile$topoProfile
+		optimalVolume <- optimizedProfile$sedVolume
 	}
+	
+	# if a local minimum persists, display a message
+	if (optimalVolume / targetSedVolume < 0.5) {
+		message("persistent local minimum encountered; unable to correct")
+	}
+	
+	# DEBUGGING ONLY: IDENTIFY PARTITIONING SPIKES / NEAR-ZERO SEDIMENTATION
+	# REFLECTS stats::optimize() FINDING A LOCAL MINIMUM
+#	if (optimalVolume / targetSedVolume < 0.5) {
+#		message(paste("targetSedVolume:", targetSedVolume, "; optimalVolume:", optimalVolume))
+#		fileName = paste(round(stats::rnorm(1)*100+1000), ".RData", sep="")
+#		save(profileFit, searchWindow, deflected, deltaWidth, marginWidth, deltaX, nonMarAlpha, marineAlpha, targetSedVolume, fallLineY=fallLineY, shore, sedVolumes, volumeDeviation, previousShoreX, bestShoreIndex, bestShore, windowPadding, optimalFit, optimalShore, optimizedProfile, optimalTopo, optimalVolume, file=fileName) 
+#	}
 
 	results <- list(shore=optimalShore, sedimentVolume=optimalVolume, fittedProfile=optimalTopo)
 	return(results)

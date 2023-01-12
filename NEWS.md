@@ -1,3 +1,7 @@
+# strataR 0.3.6
+
+* Fixed bug that could cause no sediment to be deposited.
+
 # strataR 0.3.5
 
 * Fixed bug in completeness() that would produce nonsensical percentages.
