@@ -587,7 +587,8 @@ bestShoreWarnings <- function(bestShoreIndex, sedVolumes, shore) {
 			# the next-highest index will be selected as the best shore position
 			if (max(bestShoreIndex) < length(shore)) {
 				bestShoreIndex <- max(bestShoreIndex) + 1
-				warning("bestShoreIndex too long - case 1; usually not a problem.", call.=FALSE, immediate.=FALSE) # rather common, but not usually a problem
+				# warning is turned off in version 0.4.0 because it rarely indicated an actual problem
+				# warning("bestShoreIndex too long - case 1; usually not a problem.", call.=FALSE, immediate.=FALSE) # rather common, but not usually a problem
 			} else {
 				bestShoreIndex <- max(bestShoreIndex)
 				warning("Unable to find best shore, results likely wrong. Decrease deltaX, and if necessary, increase searchWidth.", call.=FALSE, immediate.=TRUE)

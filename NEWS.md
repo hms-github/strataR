@@ -1,3 +1,8 @@
+# strataR 0.4.0
+
+* Added elevationBasinPlot(), which depicts a cross-section of the basin showing the elevation of nonmarine points at the time of deposition
+* Turned off an annoying but informative warning about the best shore index being too long.
+
 # strataR 0.3.6
 
 * Fixed bug that could cause no sediment to be deposited.

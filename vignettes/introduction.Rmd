@@ -41,8 +41,6 @@ sedBasin <- basin(geometry=geom, subsidence=subs, eustasy=eust,
 sediment=sedi)
 ```
 
-Warnings about "bestShoreIndex too long - case 1" are common and you can ignore these. If you get many of these or something looks obviously wrong, contact the developer with the commands you used to generate the geometry, subsidence, eustasy, sediment, and basin objects.
-
 `basin()` simulates two dip-line cross-sections through the basin, one along a river ("valley") and one along an interfluve; its output is a basin object. If there is no sea-level fall in the simulation, these will be identical; however, if there is a sea-level fall, the river cross-section will reflect the incision that occurs, creating a valley, and the interfluve cross-section will not. Both cross-sections are returned as well as the arguments used to run the simulation.
 
 Because simulating a basin can take a few minutes, it is usually good to save these objects and reload them when needed later, rather than rerunning the model.
@@ -92,6 +90,13 @@ Use `accumulationRatePlot()` to depict the accumulation rate along the valley or
 ```{r accumulationRatePlot, fig.height=4, fig.width=7}
 accumulationRatePlot(sedBasin, 'valley')
 accumulationRatePlot(sedBasin, 'interfluve')
+```
+
+Use `elevationBasinPlot()` to show the elevation at the time of deposition for all nonmarine locations in a basin. White corresponds to sea level, with darker grays indicating progressively higher elevations. Elevations are not shown for marine areas, so they are depicted with a uniform gray.
+
+```{r elevationBasinPlot, fig.height=4, fig.width=7}
+elevationBasinPlot(sedBasin, 'valley')
+elevationBasinPlot(sedBasin, 'interfluve')
 ```
 
 Use `partitioningPlot()` to show the proportion of sediment in the coastal plain (green) and marine (tan) realms through time.
