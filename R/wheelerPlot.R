@@ -60,11 +60,11 @@ wheelerPlot <- function(basin, setting=c('valley', 'interfluve')) {
 			}
 			eroded[timeIndex, ] <- (surface - lowestOverlyingSurface) > 1
 		}
+		vacuityCells <- which(eroded, arr.ind=TRUE)
+		vacuityTimes <- basin$timePoints[vacuityCells[, 1]]
+		vacuityPositions <- basin$positions[vacuityCells[, 2]]
+		graphics::points(vacuityPositions, vacuityTimes, pch=16, cex=0.2, col='gray30')
 	}
-	vacuityCells <- which(eroded, arr.ind=TRUE)
-	vacuityTimes <- basin$timePoints[vacuityCells[, 1]]
-	vacuityPositions <- basin$positions[vacuityCells[, 2]]
-	graphics::points(vacuityPositions, vacuityTimes, pch=16, cex=0.2, col='gray30')
 
 	# Identify marine and nonmarine areas
 	marine <- matrix(data=FALSE, nrow=nrow(sedimentAccumulated), ncol=ncol(sedimentAccumulated))

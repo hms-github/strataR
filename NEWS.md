@@ -1,3 +1,7 @@
+# strataR 0.4.1
+
+* Fixed bug in wheelerPlot(), where it would fail for setting="interfluve".
+
 # strataR 0.4.0
 
 * Added elevationBasinPlot(), which depicts a cross-section of the basin showing the elevation of nonmarine points at the time of deposition
