@@ -33,7 +33,6 @@
 #' data(marspec)
 #' maroccu <- marineOccurrences(column=marcolu, marineSpecies=marspec, sampleSpacing=1.0)
 #' summary(maroccu)
-#' print(maroccu)
 #' plot(maroccu, col=marcolu, marineSpecies=marspec)
 #'
 marineOccurrences <- function(column, marineSpecies, sampleSpacing=0.5) {
@@ -135,14 +134,6 @@ plot.marineOccurrences <- function(x, column, marineSpecies, occurrenceColor='bl
 	# singletons
 	graphics::points(rows[fadsLads$numOccurrences == 1], fadsLads$fad[fadsLads$numOccurrences == 1], pch=16, cex=0.7, col='white')
 	graphics::points(rows[fadsLads$numOccurrences == 1], fadsLads$fad[fadsLads$numOccurrences == 1], pch=1, cex=0.8, col=occurrenceColor)
-}
-
-#' 
-#' @rdname marineOccurrences
-#' @export
-
-print.marineOccurrences <- function(x, ...) {
-	x
 }
 
 #' 

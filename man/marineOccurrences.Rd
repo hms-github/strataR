@@ -3,7 +3,6 @@
 \name{marineOccurrences}
 \alias{marineOccurrences}
 \alias{plot.marineOccurrences}
-\alias{print.marineOccurrences}
 \alias{summary.marineOccurrences}
 \title{Marine Fossil Occurrences}
 \usage{
@@ -23,8 +22,6 @@ marineOccurrences(column, marineSpecies, sampleSpacing = 0.5)
   yAxisLabels = TRUE,
   ...
 )
-
-\method{print}{marineOccurrences}(x, ...)
 
 \method{summary}{marineOccurrences}(object, ...)
 }
@@ -73,7 +70,6 @@ data(marcolu)
 data(marspec)
 maroccu <- marineOccurrences(column=marcolu, marineSpecies=marspec, sampleSpacing=1.0)
 summary(maroccu)
-print(maroccu)
 plot(maroccu, col=marcolu, marineSpecies=marspec)
 
 }

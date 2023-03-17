@@ -3,7 +3,6 @@
 \name{subsidence}
 \alias{subsidence}
 \alias{plot.subsidence}
-\alias{print.subsidence}
 \alias{summary.subsidence}
 \title{Subsidence History}
 \usage{
@@ -20,8 +19,6 @@ subsidence(
 )
 
 \method{plot}{subsidence}(x, geometry, type = c("lines", "filled"), ...)
-
-\method{print}{subsidence}(x, ...)
 
 \method{summary}{subsidence}(object, ...)
 }

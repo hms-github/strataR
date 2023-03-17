@@ -3,7 +3,6 @@
 \name{column}
 \alias{column}
 \alias{plot.column}
-\alias{print.column}
 \alias{summary.column}
 \title{Stratigraphic Columns}
 \usage{
@@ -21,8 +20,6 @@ column(
   axes = TRUE,
   ...
 )
-
-\method{print}{column}(x, ...)
 
 \method{summary}{column}(object, ...)
 }
@@ -64,7 +61,6 @@ Create a stratigraphic column from anywhere in the basin by specifying the locat
 data(sedBasin)
 colu <- column(sedBasin, locationKm=200, setting='valley', pChannel=0.1, channelDepth=2)
 summary(colu)
-print(colu)
 plot(colu)
 
 }

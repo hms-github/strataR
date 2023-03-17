@@ -104,14 +104,6 @@ plot.subsidence <- function(x, geometry, type=c('lines', 'filled'), ...) {
 #' @rdname subsidence
 #' @export
 
-print.subsidence <- function(x, ...) {
-	x
-}
-
-#' 
-#' @rdname subsidence
-#' @export
-
 summary.subsidence <- function(object, ...) {
 	cat("Initial subsidence rate at left edge (startingLeft):                  ", object$parameters$startingLeft, "m/m.y.\n")
 	cat("Initial subsidence rate at right edge (startingRight):                ", object$parameters$startingRight, "m/m.y.\n")

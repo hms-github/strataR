@@ -3,7 +3,6 @@
 \name{eustasy}
 \alias{eustasy}
 \alias{plot.eustasy}
-\alias{print.eustasy}
 \alias{summary.eustasy}
 \title{Eustatic Sea-level History}
 \usage{
@@ -18,8 +17,6 @@ eustasy(
 )
 
 \method{plot}{eustasy}(x, ...)
-
-\method{print}{eustasy}(x, ...)
 
 \method{summary}{eustasy}(object, ...)
 }
@@ -66,7 +63,6 @@ geom <- geometry(fallLineY=150, shoreX=200, deltaWidth=100, deltaToeY=-100,
   marginWidth=600, nonMarAlpha=0.5, marineAlpha=2.0, duration=3.0, timeStep=0.01)
 eust <- eustasy(geometry=geom, netRise=30.0)	
 summary(eust)
-print(eust)
 plot(eust)
 
 }

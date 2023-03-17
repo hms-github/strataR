@@ -3,7 +3,6 @@
 \name{basin}
 \alias{basin}
 \alias{plot.basin}
-\alias{print.basin}
 \alias{summary.basin}
 \title{Basin Simulation}
 \usage{
@@ -17,8 +16,6 @@ basin(geometry, subsidence, eustasy, sediment, searchWidth = 10)
   ylim = NULL,
   ...
 )
-
-\method{print}{basin}(x, ...)
 
 \method{summary}{basin}(object, ...)
 }
@@ -68,7 +65,6 @@ eust <- eustasy(geometry=geom, netRise=30.0)
 sedi <- sediment(geometry=geom, startingVolume=120, netIncrease=120)
 sedBasin <- basin(geometry=geom, subsidence=subs, eustasy=eust, sediment=sedi)
 summary(sedBasin)
-print(sedBasin)
 plot(sedBasin, setting="valley")
 
 }

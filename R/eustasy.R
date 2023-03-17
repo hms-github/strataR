@@ -27,7 +27,6 @@
 #'   marginWidth=600, nonMarAlpha=0.5, marineAlpha=2.0, duration=3.0, timeStep=0.01)
 #' eust <- eustasy(geometry=geom, netRise=30.0)	
 #' summary(eust)
-#' print(eust)
 #' plot(eust)
 #' 
 #' @rdname eustasy
@@ -55,14 +54,6 @@ eustasy <- function(geometry, period=1, amplitude=0, symmetry=0.5, phase=c('risi
 
 plot.eustasy <- function(x, ...) {
 	plot(x$timeSeries$timePoint, x$timeSeries$seaLevel, type='l', las=1, xlab="model time (m.y.)", ylab="sea level (m)", ...)
-}
-
-#' 
-#' @rdname eustasy
-#' @export
-
-print.eustasy <- function(x, ...) {
-	x
 }
 
 #' 

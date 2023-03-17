@@ -29,7 +29,6 @@
 #' sedi <- sediment(geometry=geom, startingVolume=120, netIncrease=120)
 #' sedBasin <- basin(geometry=geom, subsidence=subs, eustasy=eust, sediment=sedi)
 #' summary(sedBasin)
-#' print(sedBasin)
 #' plot(sedBasin, setting="valley")
 #' 
 #' @rdname basin
@@ -235,13 +234,6 @@ plot.basin <- function(x, setting=c('valley', 'interfluve'), addLegend=TRUE, xli
 		shoreCoords <- shores(basin=x, setting='interfluve')
 		graphics::points(shoreCoords$x, shoreCoords$y, type='l', col='yellow', lwd=2, lty='dotted')
 	}
-}
-
-#' 
-#' @rdname basin
-#' @export
-print.basin <- function(x, ...) {
-	x
 }
 
 #' 

@@ -28,7 +28,6 @@
 #' data(sedBasin)
 #' colu <- column(sedBasin, locationKm=200, setting='valley', pChannel=0.1, channelDepth=2)
 #' summary(colu)
-#' print(colu)
 #' plot(colu)
 #' 
 #' @rdname column
@@ -176,14 +175,6 @@ plot.column <- stratColumnPlot <- function(x, stratRange=c(floor(min(x$stratPosi
 	if (length(paleosol) > 0) {
 		graphics::segments(0, base[paleosol], paleosolWidth, base[paleosol], col=paleosolColor, lwd=3.0)
 	}
-}
-
-#' 
-#' @rdname column
-#' @export
-
-print.column <- function(x, ...) {
-	x
 }
 
 #' 

@@ -33,7 +33,6 @@
 #' data(spec)
 #' occu <- occurrences(column=coluValley, species=spec, sampleSpacing=1.0)
 #' summary(occu)
-#' print(occu)
 #' plot(occu, col=coluValley, species=spec)
 #'
 occurrences <- function(column, species, sampleSpacing=0.5) {
@@ -142,14 +141,6 @@ plot.occurrences <- function(x, column, species, occurrenceColor='blue', rangeCo
 	# singletons
 	graphics::points(rows[fadsLads$numOccurrences == 1], fadsLads$fad[fadsLads$numOccurrences == 1], pch=16, cex=0.7, col='white')
 	graphics::points(rows[fadsLads$numOccurrences == 1], fadsLads$fad[fadsLads$numOccurrences == 1], pch=1, cex=0.8, col=occurrenceColor)
-}
-
-#' 
-#' @rdname occurrences
-#' @export
-
-print.occurrences <- function(x, ...) {
-	x
 }
 
 #' 

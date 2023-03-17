@@ -41,7 +41,7 @@
 #' @examples
 #' spec <- species(timeStep=0.001, extRate=0.25, startingSpecies=1000, durationMy=5.0, 
 #'   minPE=0, maxPE=200, meanET=10, sdET=2, meanLogPA=log(25), sdLogPA=log(5), maxPA=100)
-#' print(spec)
+#' summary(spec)
 #' plot(spec)
 #' 
 #' @rdname species
@@ -71,14 +71,6 @@ plot.species <- function(x, ...) {
 	graphics::hist(x$PA, xlab='Peak Abundance (as %)', breaks=50, las=1, col='gray', main='')
 	graphics::hist(x$Aff, xlab='Affinity', breaks=50, las=1, col='gray', main='')
 	graphics::par(oldpar)
-}
-
-#' 
-#' @rdname species
-#' @export
-
-print.species <- function(x, ...) {
-	x
 }
 
 #' 

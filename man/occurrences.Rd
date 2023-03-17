@@ -3,7 +3,6 @@
 \name{occurrences}
 \alias{occurrences}
 \alias{plot.occurrences}
-\alias{print.occurrences}
 \alias{summary.occurrences}
 \title{Fossil Occurrences}
 \usage{
@@ -23,8 +22,6 @@ occurrences(column, species, sampleSpacing = 0.5)
   yAxisLabels = TRUE,
   ...
 )
-
-\method{print}{occurrences}(x, ...)
 
 \method{summary}{occurrences}(object, ...)
 }
@@ -73,7 +70,6 @@ data(coluValley)
 data(spec)
 occu <- occurrences(column=coluValley, species=spec, sampleSpacing=1.0)
 summary(occu)
-print(occu)
 plot(occu, col=coluValley, species=spec)
 
 }

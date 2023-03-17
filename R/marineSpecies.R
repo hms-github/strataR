@@ -35,7 +35,6 @@
 #'   durationMy=5.0, minPD=0, maxPD=200, meanDT=10, sdDT=2, meanLogPA=log(25), 
 #'   sdLogPA=log(5), maxPA=100)
 #' summary(spec)
-#' print(spec)
 #' plot(spec)
 #' 
 #' @rdname marineSpecies
@@ -65,14 +64,6 @@ plot.marineSpecies <- function(x, ...) {
 	graphics::hist(x$PA, xlab='Peak Abundance (as %)', breaks=50, las=1, col='gray', main='')
 	plot(1, 1, type='n', axes=FALSE, xlab="", ylab="", ...)  # blank for remaining cell
 	graphics::par(oldpar)
-}
-
-#' 
-#' @rdname marineSpecies
-#' @export
-
-print.marineSpecies <- function(x, ...) {
-	x
 }
 
 #' 

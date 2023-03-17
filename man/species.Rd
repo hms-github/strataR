@@ -3,7 +3,6 @@
 \name{species}
 \alias{species}
 \alias{plot.species}
-\alias{print.species}
 \alias{summary.species}
 \title{Species Simulation}
 \usage{
@@ -27,8 +26,6 @@ species(
 )
 
 \method{plot}{species}(x, ...)
-
-\method{print}{species}(x, ...)
 
 \method{summary}{species}(object, ...)
 }
@@ -98,7 +95,7 @@ Creates a species object, which records the ancestor of a species, its times of 
 \examples{
 spec <- species(timeStep=0.001, extRate=0.25, startingSpecies=1000, durationMy=5.0, 
   minPE=0, maxPE=200, meanET=10, sdET=2, meanLogPA=log(25), sdLogPA=log(5), maxPA=100)
-print(spec)
+summary(spec)
 plot(spec)
 
 }

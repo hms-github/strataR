@@ -1,3 +1,7 @@
+# strataR 0.4.3
+
+* Bug fixes with print S3 methods
+
 # strataR 0.4.2
 
 * Fixed print S3 methods so that they display the objects rather than a summary

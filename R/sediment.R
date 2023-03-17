@@ -28,7 +28,6 @@
 #' geom <- geometry(fallLineY=150, shoreX=200, deltaWidth=100, deltaToeY=-100, 
 #'   marginWidth=600, nonMarAlpha=0.5, marineAlpha=2.0, duration=3.0, timeStep=0.01)
 #' sedi <- sediment(geometry=geom, startingVolume=60)
-#' print(sedi)
 #' summary(sedi)
 #' plot(sedi)
 #' 
@@ -62,14 +61,6 @@ sediment <- function(geometry, startingVolume=60, netIncrease=0, period=1, ampli
 
 plot.sediment <- function(x, ...) {
 	plot(x$timeSeries$timePoint, x$timeSeries$volume, type='l', las=1, xlab="model time (m.y.)", ylab="sediment flux", ...)
-}
-
-#' 
-#' @rdname sediment
-#' @export
-
-print.sediment <- function(x, ...) {
-	x
 }
 
 #' 

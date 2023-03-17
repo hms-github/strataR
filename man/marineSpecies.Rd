@@ -3,7 +3,6 @@
 \name{marineSpecies}
 \alias{marineSpecies}
 \alias{plot.marineSpecies}
-\alias{print.marineSpecies}
 \alias{summary.marineSpecies}
 \title{Marine Species Simulation}
 \usage{
@@ -25,8 +24,6 @@ marineSpecies(
 )
 
 \method{plot}{marineSpecies}(x, ...)
-
-\method{print}{marineSpecies}(x, ...)
 
 \method{summary}{marineSpecies}(object, ...)
 }
@@ -88,7 +85,6 @@ spec <- marineSpecies(timeStep=0.001, extRate=0.25, startingSpecies=1000,
   durationMy=5.0, minPD=0, maxPD=200, meanDT=10, sdDT=2, meanLogPA=log(25), 
   sdLogPA=log(5), maxPA=100)
 summary(spec)
-print(spec)
 plot(spec)
 
 }
