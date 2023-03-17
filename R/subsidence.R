@@ -105,18 +105,7 @@ plot.subsidence <- function(x, geometry, type=c('lines', 'filled'), ...) {
 #' @export
 
 print.subsidence <- function(x, ...) {
-	cat("startingLeft:                ", x$parameters$startingLeft, "m/m.y.\n")
-	cat("startingRight:               ", x$parameters$startingRight, "m/m.y.\n")
-	cat("netChangeFactor:             ", x$parameters$netChangeFactor, "(dimensionless)\n")
-	cat("period:                      ", x$parameters$period, "m.y.\n")
-	cat("amplitude:                   ", x$parameters$amplitude, "m\n")
-	cat("symmetry:                    ", x$parameters$symmetry, "(dimensionless, 0 to 1\n")
-	cat("phase:                       ", x$parameters$phase, "\n")
-	cat("shape:                       ", x$parameters$shape, "(dimensionless, 0 to infinity)\n")
-	cat("Number of time steps:        ", nrow(x$rates), "\n")
-	cat("Number of spatial positions: ", ncol(x$rates), "\n")
-	cat("Minimum subsidence rate:     ", min(x$rates), "m/m.y.\n")
-	cat("Maximum subsidence rate:     ", max(x$rates), "m/m.y.\n")
+	x
 }
 
 #' 
@@ -132,4 +121,8 @@ summary.subsidence <- function(object, ...) {
 	cat("Symmetry of cyclical subsidence (symmetry):                           ", object$parameters$symmetry, "(dimensionless, 0 to 1)\n")
 	cat("Phase of cyclical subsidence (phase):                                 ", object$parameters$phase, "\n")
 	cat("Shape of cyclical subsidence (shape):                                 ", object$parameters$shape, "(dimensionless, 0 to infinity)\n")
+	cat("Number of time steps:                                                 ", nrow(object$rates), "\n")
+	cat("Number of spatial positions:                                          ", ncol(object$rates), "\n")
+	cat("Minimum subsidence rate:                                              ", min(object$rates), "m/m.y.\n")
+	cat("Maximum subsidence rate:                                              ", max(object$rates), "m/m.y.\n")
 }

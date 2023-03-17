@@ -183,8 +183,7 @@ plot.column <- stratColumnPlot <- function(x, stratRange=c(floor(min(x$stratPosi
 #' @export
 
 print.column <- function(x, ...) {
-	cat("duration:  ", max(x$modelTime), "m.y.\n")
-	cat("thickness: ", sum(x$thickness), "m.y.\n")
+	x
 }
 
 #' 

@@ -72,11 +72,7 @@ plot.marineSpecies <- function(x, ...) {
 #' @export
 
 print.marineSpecies <- function(x, ...) {
-	cat("simulation duration:           ", max(x$extinction), "m.y.\n")
-	cat("number of species:             ", max(x$id), "\n")
-	cat("range of preferred depth (PD): ", min(x$PD), "-", max(x$PD), "m\n")
-	cat("range of depth tolerance (DT): ", min(x$DT), "-", max(x$DT), "m\n")
-	cat("range of peak abundance (PA):  ", min(x$PA), "-", max(x$PA), "%\n")
+	x
 }
 
 #' 

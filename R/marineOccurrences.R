@@ -142,11 +142,7 @@ plot.marineOccurrences <- function(x, column, marineSpecies, occurrenceColor='bl
 #' @export
 
 print.marineOccurrences <- function(x, ...) {
-	cat("oldest occurrence:   ", min(x$modelTime), "m.y.\n")
-	cat("youngest occurrence: ", max(x$modelTime), "m.y.\n")
-	cat("lowest occurrence:   ", min(x$stratPosition), "m\n")
-	cat("highest occurrence:  ", max(x$stratPosition), "m\n")
-	cat("occurring species:   ", length(unique(x$speciesId)), "\n")
+	x
 }
 
 #' 

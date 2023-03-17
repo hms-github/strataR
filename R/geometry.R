@@ -103,18 +103,7 @@ geometry <- function(fallLineY, shoreX, deltaWidth, deltaToeY, marginWidth, reso
 #' @export
 
 print.geometry <- function(x, ...) {
-	cat("fallLineX:   ", x$fallLineX, "km\n")
-	cat("fallLineY:   ", x$fallLineY, "m\n")
-	cat("shoreX:      ", x$shoreX, "km\n")
-	cat("shoreY:      ", x$shoreY, "m\n")
-	cat("deltaWidth:  ", x$deltaWidth, "km\n")
-	cat("marginWidth: ", x$marginWidth, "km\n")
-	cat("deltaToeY:   ", x$deltaToeY, "m\n")
-	cat("deltaX:      ", x$deltaX, "m\n")
-	cat("nonMarAlpha: ", x$nonMarAlpha, "(dimensionless)\n")
-	cat("marineAlpha: ", x$marineAlpha, "(dimensionless)\n")
-	cat("duration:    ", x$duration, "m.y.\n")
-	cat("timeStep:    ", x$timeStep, "m.y.\n")
+	x
 }
 
 #' 

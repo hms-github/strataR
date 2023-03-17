@@ -78,12 +78,7 @@ plot.species <- function(x, ...) {
 #' @export
 
 print.species <- function(x, ...) {
-	cat("simulation duration:               ", max(x$extinction), "m.y.\n")
-	cat("number of species:                 ", max(x$id), "\n")
-	cat("range of preferred elevation (PE): ", min(x$PE), "-", max(x$PE), "m\n")
-	cat("range of elevation tolerance (ET): ", min(x$ET), "-", max(x$ET), "m\n")
-	cat("range of peak abundance (PA):      ", min(x$PA), "-", max(x$PA), "%\n")
-	cat("range of affinity (Aff):           ", min(x$Aff), "-", max(x$Aff), "\n")
+	x
 }
 
 #' 

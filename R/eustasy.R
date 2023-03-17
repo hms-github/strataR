@@ -62,15 +62,7 @@ plot.eustasy <- function(x, ...) {
 #' @export
 
 print.eustasy <- function(x, ...) {
-	cat("net eustatic rise (netRise):                 ", x$parameters$netRise, "m\n")
-	cat("Period of eustatic cyclicity (period):       ", x$parameters$period, "m.y.\n")
-	cat("Amplitude of eustatic cyclicity (amplitude): ", x$parameters$amplitude, "m\n")
-	cat("Symmetry of eustatic cyclicity (symmetry):   ", x$parameters$symmetry, "(dimensionless, 0 to 1)\n")
-	cat("Phase of eustatic cyclicity (phase):         ", x$parameters$phase, "\n")
-	cat("Shape of eustatic cyclicity (shape):         ", x$parameters$shape, "(dimensionless, 0 to infinity)\n")
-	cat("Number of time steps:                        ", length(x$timeSeries$timePoint), "\n")
-	cat("Minimum sea level:                           ", min(x$timeSeries$seaLevel), "m\n")
-	cat("Maximum sea level:                           ", max(x$timeSeries$seaLevel), "m\n")
+	x
 }
 
 #' 
@@ -78,12 +70,15 @@ print.eustasy <- function(x, ...) {
 #' @export
 
 summary.eustasy <- function(object, ...) {
-	cat("net rise (netRise): ", object$parameters$netRise, "m\n")
-	cat("period:             ", object$parameters$period, "m.y.\n")
-	cat("amplitude:          ", object$parameters$amplitude, "m\n")
-	cat("symmetry:           ", object$parameters$symmetry, "(dimensionless, 0 to 1)\n")
-	cat("phase:              ", object$parameters$phase, "\n")
-	cat("shape:              ", object$parameters$shape, "(dimensionless, 0 to infinity)\n")
+	cat("net rise (netRise):   ", object$parameters$netRise, "m\n")
+	cat("period:               ", object$parameters$period, "m.y.\n")
+	cat("amplitude:            ", object$parameters$amplitude, "m\n")
+	cat("symmetry:             ", object$parameters$symmetry, "(dimensionless, 0 to 1)\n")
+	cat("phase:                ", object$parameters$phase, "\n")
+	cat("shape:                ", object$parameters$shape, "(dimensionless, 0 to infinity)\n")
+	cat("Number of time steps: ", length(object$timeSeries$timePoint), "\n")
+	cat("Minimum sea level:    ", min(object$timeSeries$seaLevel), "m\n")
+	cat("Maximum sea level:    ", max(object$timeSeries$seaLevel), "m\n")
 }
 
 

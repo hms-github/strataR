@@ -1,3 +1,7 @@
+# strataR 0.4.2
+
+* Fixed print S3 methods so that they display the objects rather than a summary
+
 # strataR 0.4.1
 
 * Fixed bug in wheelerPlot(), where it would fail for setting="interfluve".

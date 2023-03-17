@@ -69,16 +69,7 @@ plot.sediment <- function(x, ...) {
 #' @export
 
 print.sediment <- function(x, ...) {
-	cat("startingVolume:          ", x$parameters$startingVolume, "m^2*km\n")
-	cat("netIncrease:             ", x$parameters$netIncrease, "m^2*km\n")
-	cat("period:                  ", x$parameters$period, "m.y.\n")
-	cat("amplitude:               ", x$parameters$amplitude, "m^2*km\n")
-	cat("symmetry:                ", x$parameters$symmetry, "(dimensionless, 0 to 1)\n")
-	cat("phase:                   ", x$parameters$phase, "\n")
-	cat("shape:                   ", x$parameters$shape, "(dimensionless, 0 to infinity)\n")
-	cat("timePoints:              ", length(x$timeSeries$timePoint), "\n")
-	cat("minimum sedment volume:  ", min(x$timeSeries$volume), "m^2*km\n")
-	cat("maximum sediment volume: ", max(x$timeSeries$volume), "m^2*km\n")
+	x
 }
 
 #' 
@@ -93,4 +84,7 @@ summary.sediment <- function(object, ...) {
 	cat("Symmetry of cyclical sediment input (symmetry):   ", object$parameters$symmetry, "(dimensionless, 0 to 1)\n")
 	cat("Phase of cyclical sediment input (phase):         ", object$parameters$phase, "\n")
 	cat("Shape of cyclical sediment input (shape):         ", object$parameters$shape, "(dimensionless, 0 to infinity)\n")
+	cat("timePoints:                                       ", length(object$timeSeries$timePoint), "\n")
+	cat("minimum sedment volume:                           ", min(object$timeSeries$volume), "m^2*km\n")
+	cat("maximum sediment volume:                          ", max(object$timeSeries$volume), "m^2*km\n")
 }
