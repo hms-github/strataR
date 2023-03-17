@@ -2,7 +2,6 @@
 % Please edit documentation in R/geometry.R
 \name{geometry}
 \alias{geometry}
-\alias{print.geometry}
 \alias{summary.geometry}
 \title{Basin Geometry}
 \usage{
@@ -18,8 +17,6 @@ geometry(
   duration,
   timeStep
 )
-
-\method{print}{geometry}(x, ...)
 
 \method{summary}{geometry}(object, ...)
 }
@@ -46,9 +43,9 @@ profile}
 
 \item{timeStep}{duration of one time step in the basin simulation, in m.y.}
 
-\item{x, object}{an object of class \code{geometry}.}
-
 \item{...}{additional arguments to be passed.}
+
+\item{x, object}{an object of class \code{geometry}.}
 }
 \value{
 geometry returns an object of class "geometry", which includes print and summary methods.

@@ -99,13 +99,6 @@ geometry <- function(fallLineY, shoreX, deltaWidth, deltaToeY, marginWidth, reso
 	return(results)
 }
 
-#' @rdname geometry
-#' @export
-
-print.geometry <- function(x, ...) {
-	x
-}
-
 #' 
 #' @rdname geometry
 #' @export
