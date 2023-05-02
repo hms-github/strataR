@@ -6,6 +6,9 @@
 #'
 #' @param basin an object of class [`basin`].
 #' @param setting a string, either "valley" or "interfluve".
+#' @param xlim,ylim Optional setting to set the range of the x-axis and y-axis that is  
+#'   displayed.
+#' @param ... additional arguments to be passed.
 #'
 #' @export
 #'
@@ -14,7 +17,7 @@
 #' wheelerPlot(sedBasin, setting="valley")
 #'
 
-wheelerPlot <- function(basin, setting=c('valley', 'interfluve')) {
+wheelerPlot <- function(basin, setting=c('valley', 'interfluve'), xlim=NULL, ylim=NULL, ...) {
 	setting <- match.arg(setting)
 	marineColor <- 'tan'
 	coastalPlainColor <- 'olivedrab3'
@@ -26,8 +29,16 @@ wheelerPlot <- function(basin, setting=c('valley', 'interfluve')) {
 		sedimentAccumulated <- basin$sedimentAccumulatedInterfluve
 	}
 
+	# If no specific range is set for x and y, create the default plot limits
+	if (is.null(xlim)) {
+		xlim=c(basin$parameters$fallLineX, basin$parameters$marginWidth)
+	}
+	if (is.null(ylim)) {
+		ylim <- c(0, basin$parameters$duration)
+	}
+
 	# Start the plot
-	plot(1, 1, type='n', xlim=c(basin$parameters$fallLineX, basin$parameters$marginWidth), ylim=c(0, basin$parameters$duration), las=1, xlab='Distance (km)', ylab='model time (m.y.)')
+	plot(1, 1, type='n', xlim=xlim, ylim=ylim, las=1, xlab='Distance (km)', ylab='model time (m.y.)', ...)
 
 	# Marine sediments 
 	# These are shown everywhere, will be masked by nonmarine, unconformity, and starvation

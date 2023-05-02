@@ -4,12 +4,23 @@
 \alias{wheelerPlot}
 \title{Wheeler Plot}
 \usage{
-wheelerPlot(basin, setting = c("valley", "interfluve"))
+wheelerPlot(
+  basin,
+  setting = c("valley", "interfluve"),
+  xlim = NULL,
+  ylim = NULL,
+  ...
+)
 }
 \arguments{
 \item{basin}{an object of class \code{\link{basin}}.}
 
 \item{setting}{a string, either "valley" or "interfluve".}
+
+\item{xlim, ylim}{Optional setting to set the range of the x-axis and y-axis that is
+displayed.}
+
+\item{...}{additional arguments to be passed.}
 }
 \description{
 Plot of regions of sedimentation, non-deposition, and erosion throug time.

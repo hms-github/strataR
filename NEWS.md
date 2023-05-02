@@ -1,3 +1,8 @@
+# strataR 1.0.0
+
+* Added ability to set x and y limits of a Wheeler plot, and add a main label to the plot
+* Modified code to address the problem of local minima, which may still arise in rare cases.
+
 # strataR 0.4.3
 
 * Bug fixes with print S3 methods
