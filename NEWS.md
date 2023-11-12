@@ -1,3 +1,7 @@
+# strataR 1.0.1
+
+* Minor bug fix
+
 # strataR 1.0.0
 
 * Added ability to set x and y limits of a Wheeler plot, and add a main label to the plot
