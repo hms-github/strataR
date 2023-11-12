@@ -43,9 +43,9 @@ profile}
 
 \item{timeStep}{duration of one time step in the basin simulation, in m.y.}
 
-\item{...}{additional arguments to be passed.}
+\item{object}{an object of class \code{geometry}.}
 
-\item{x, object}{an object of class \code{geometry}.}
+\item{...}{additional arguments to be passed.}
 }
 \value{
 geometry returns an object of class "geometry", which includes print and summary methods.
@@ -59,7 +59,7 @@ Create a basin geometry object
 Creates a basin geometry object, which is needed to create subsidence, eustasy, sedimentation, and basin objects. A geometry object defines the spatial and temporal characteristics of a basin simulation.
 }
 \examples{
-geom <- geometry(fallLineY=150, shoreX=200, deltaWidth=100, deltaToeY=-100, 
+geom <- geometry(fallLineY=150, shoreX=200, deltaWidth=100, deltaToeY=-100,
   marginWidth=600, nonMarAlpha=0.5, marineAlpha=2.0, duration=3.0, timeStep=0.01)
 summary(geom)
 
