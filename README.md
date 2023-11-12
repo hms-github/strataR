@@ -12,7 +12,11 @@ You can install the dev version of strataR from Github with:
 devtools::install_github("hms-github/strataR", build_vignettes=TRUE)
 ```
 
-Building the vignettes will take a few minutes.
+Building the vignettes will take a few minutes. I recommend installing strataR through RStudio rather than R.app, as the latter approach has failed in some cases. The problem is that pandoc is needed to generate the vignettes, but it may not be installed or R.app does not have the path to pandoc. RStudio automatically handles these issues. Alternatively, you can run the following in R.app, but it will not generate the vignettes.
+
+``` r
+devtools::install_github("hms-github/strataR")
+```
 
 ## Instructions
 
