@@ -10,7 +10,7 @@
 #' @param ... Optional arguments to style how the time lines are displayed.
 #'
 #' @export
-#' 
+#'
 #' @examples
 #' data(sedBasin)
 #' plot(sedBasin)
@@ -21,7 +21,7 @@ addTimeLines <- function(basin, setting=c('valley', 'interfluve'), timeLines, ..
 	setting <- match.arg(setting)
 	elevation <- 1
 	deflection <- finalDeflection(basin)
-	
+
 	if (setting == 'valley') {
 	 	elevation <- basin$elevationProfileValley
 	} else if (setting == 'interfluve') {
@@ -29,15 +29,20 @@ addTimeLines <- function(basin, setting=c('valley', 'interfluve'), timeLines, ..
 	} else {
 	     warning("Setting must be 'valley' or 'interfluve'", call.=FALSE, immediate.=TRUE)
 	}
-	
+
 	for (i in 1:length(timeLines)) {
+		# timeIndex is the index of the earliest timePoint in the basin that comes
+		#   closest to the current timeLine to be drawn
 		timeIndex <- which(abs(basin$timePoints - timeLines[i]) == min(abs(basin$timePoints - timeLines[i])))
 		surface <- elevation[timeIndex, ] - deflection[timeIndex, ]
-		
+
 		# in the valley where erosion can occur, correct all older positions to be no higher than the current profile. On the interfluve, ensure that the profile is no lower than any previous profile.
 		if (setting == 'valley') {
 			overlyingIndices <- seq(timeIndex+1, length(basin$timePoints))
 			for (j in overlyingIndices) {
+				if (j > nrow(elevation)) {
+					j <- nrow(elevation)  # prevents subscript out of bounds error
+				}
 				deflectedOverlyingSurface <- elevation[j, ] - deflection[j, ]
 				surface <- pmin(surface, deflectedOverlyingSurface)
 			}
@@ -50,7 +55,7 @@ addTimeLines <- function(basin, setting=c('valley', 'interfluve'), timeLines, ..
 		} else {
 			warning("Setting must be 'valley' or 'interfluve'", call.=FALSE, immediate.=TRUE)
 		}
-		
+
 		graphics::points(basin$positions, surface, type='l', ...)
 	}
 }

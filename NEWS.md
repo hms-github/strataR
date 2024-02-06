@@ -1,6 +1,10 @@
+# strataR 1.0.2
+
+* Fixed subscript-out-of-range error when calling addTimeLines() on a valley cross-section.
+
 # strataR 1.0.1
 
-* Minor bug fix
+* Minor bug fix.
 
 # strataR 1.0.0
 
