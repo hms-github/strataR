@@ -1,3 +1,7 @@
+# strataR 1.1
+
+* Added columnAgePlot(), which plots the model age of horizons through a stratigraphic column.
+
 # strataR 1.0.2
 
 * Fixed subscript-out-of-range error when calling addTimeLines() on a valley cross-section.
