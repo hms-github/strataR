@@ -22,7 +22,7 @@
 #' 
 #' @return `column` returns an object of class "column", which includes print and summary methods.
 #' 
-#' A column object consists of a data frame with five columns; each row corresponds to one sedimentary deposit. `modelTime` is the model time step in millions of years, `thickness` is the thickness of the deposit in meters, `stratPosition` is the height (in meters) within the stratigraphic column of the base of the deposit, `facies` is the facies of the deposit (floodplain, channel, or marine), and `elevation` is the elevation (in meters above sea level) at which the deposit accumulated.
+#' A column object consists of a data frame with five columns; each row corresponds to one sedimentary deposit. `modelTime` is the model time step in millions of years, `thickness` is the thickness of the deposit in meters, `stratPosition` is the height (in meters) within the stratigraphic column of the base of the deposit, `facies` is the facies of the deposit (floodplain, channel, marine, or carbonate), and `elevation` is the elevation (in meters above sea level) at which the deposit accumulated. Water depths therefore have negative values.
 #'
 #' @examples
 #' data(sedBasin)
@@ -97,11 +97,13 @@ column <- function(basin, locationKm, setting=c('valley', 'interfluve'), pChanne
 #' @rdname column
 #' @export
 
-plot.column <- stratColumnPlot <- function(x, stratRange=c(floor(min(x$stratPosition)), ceiling(max(x$stratPosition))), axes=TRUE, ...) {
+plot.column <- function(x, stratRange=c(floor(min(x$stratPosition)), ceiling(max(x$stratPosition))), axes=TRUE, ...) {
 	# x is the output of the column() function	
 	
 	# Facies widths
 	marineWidth <- 1.5
+	carbonateShallowWidth <- 2.0
+	carbonateDeepWidth <- 0.3
 	floodplainWidth <- 1.5
 	channelWidth <- 2
 	sbChannelWidth <- 2.1
@@ -112,6 +114,8 @@ plot.column <- stratColumnPlot <- function(x, stratRange=c(floor(min(x$stratPosi
 	# Facies colors
 	marineColor <- 'tan'
 	marineBorder <- 'tan3'
+	carbonateColor <- 'cadetblue2'
+	carbonateBorder <- 'cadetblue3'
 	floodplainColor <- 'olivedrab3'
 	floodplainBorder <- 'olivedrab4'
 	channelColor <- 'yellow'
@@ -136,6 +140,22 @@ plot.column <- stratColumnPlot <- function(x, stratRange=c(floor(min(x$stratPosi
 	marine <- which(facies == 'marine')
 	if (length(marine) > 0) {
 		graphics::rect(rep(0, length(marine)), base[marine], rep(marineWidth, length(marine)), top[marine], col=marineColor, border=marineBorder)
+	}
+	
+	# Draw carbonate
+	carbonate <- which(facies == 'carbonate')
+	if (length(carbonate) > 0) {
+		cat("carbonates found\n")
+		depth <- -x$elevation[carbonate]
+		maxDepth <- max(depth)
+		minDepth <- 0
+		carbonateWidth <- rep(minDepth, length(carbonate))
+		submerged <- depth > 0
+		carbonateWidth[submerged] <- depth[submerged] * (carbonateShallowWidth - carbonateDeepWidth) / (maxDepth - minDepth) + carbonateDeepWidth	
+		graphics::rect(rep(0, length(carbonate)), base[carbonate], carbonateWidth, top[carbonate], col=carbonateColor, border=carbonateBorder)
+		graphics::rect(0, 0, carbonateDeepWidth, max(x$stratPosition), col="white", border="white", lwd=1.5)
+		hiatus <- depth < 0
+		graphics::segments(rep(0, length(carbonate[hiatus])), base[carbonate[hiatus]], carbonateDeepWidth, base[carbonate[hiatus]])
 	}
 	
 	# Draw floodplain

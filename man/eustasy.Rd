@@ -50,7 +50,7 @@ simulation.}
 \value{
 \code{eustasy} returns an object of class "eustasy", which includes print, summary, and plot methods.
 
-A eustasy object consists of a two-item list. The first item is a list of the arugments that were used to create the eustatic history. The second item is a data frame called \code{timeSeries}, in which the first column is the model time point (\code{timePoint}) and the second is the sea level in meters (\code{seaLevel}).
+A eustasy object consists of a two-item list. The first item is a list of the arguments that were used to create the eustatic history. The second item is a data frame called \code{timeSeries}, in which the first column is the model time point (\code{timePoint}) and the second is the sea level in meters (\code{seaLevel}).
 }
 \description{
 Create an object of class "eustasy".

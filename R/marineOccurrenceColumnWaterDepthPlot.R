@@ -35,7 +35,7 @@ marineOccurrenceColumnWaterDepthPlot <- function(marineOccurrences, column, mari
 	
 	# Left panel: stratigraphic column
 	graphics::par(fig=c(0, leftDivider, 0, 1), mar=c(5, 4, 4, 0) + 0.1)
-	stratColumnPlot(column)
+	plot(column)
 	
 	# Middle panel: range chart
 	graphics::par(fig=c(leftDivider, rightDivider, 0, 1), mar=c(5, 0, 4, 0) + 0.1, new=TRUE)

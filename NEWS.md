@@ -1,3 +1,9 @@
+# strataR 1.2
+
+* Simulate stratigraphic columns in shallow-marine carbonates.
+* Create strataR columns from sedflux output.
+* New functions: carbAgeDepthPlot(), carbColumn(), carbCompleteness(), carbSediment(), carbThickness(), and columnFromSedflux().
+
 # strataR 1.1
 
 * Added columnAgePlot(), which plots the model age of horizons through a stratigraphic column.

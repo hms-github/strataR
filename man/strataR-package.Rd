@@ -6,6 +6,8 @@
 \alias{strataR-package}
 \title{strataR: Simulate Sedimentary Basins and Their Fossil Record}
 \description{
+\if{html}{\figure{logo.png}{options: style='float: right' alt='logo' width='120'}}
+
 strataR simulates the sedimentary fill of basins, based on inputs of tectonic subsidence, eustasy, sedimentation, and basin geometry. Stratigraphic columns can be simulated from anywhere in the basin, along with their fossil record.
 }
 \author{

@@ -34,7 +34,7 @@
 #' 
 #' @return `eustasy` returns an object of class "eustasy", which includes print, summary, and plot methods.
 #' 
-#' A eustasy object consists of a two-item list. The first item is a list of the arugments that were used to create the eustatic history. The second item is a data frame called `timeSeries`, in which the first column is the model time point (`timePoint`) and the second is the sea level in meters (`seaLevel`).
+#' A eustasy object consists of a two-item list. The first item is a list of the arguments that were used to create the eustatic history. The second item is a data frame called `timeSeries`, in which the first column is the model time point (`timePoint`) and the second is the sea level in meters (`seaLevel`).
 #' 
 
 eustasy <- function(geometry, period=1, amplitude=0, symmetry=0.5, phase=c('rising', 'falling', 'highPoint', 'lowPoint'), shape=0, netRise=0) {
