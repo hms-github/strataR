@@ -7,7 +7,7 @@
 #' @param basin an object of class [`basin`].
 #' @param locationKm a number indicating where in the basin the column will be located,  
 #'   specified as the distance (in km) from the left edge of the basin.
-#' @param setting a string, either "valley" or "interfluve", specifying where the colulmn  
+#' @param setting a string, either "valley" or "interfluve", specifying where the column  
 #'   will be located.
 #' @param pChannel a number from 0 to 1 specifying the probability that a channel will be  
 #'   present at any time step. Floodplain facies are deposited if a channel is not  

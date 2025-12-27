@@ -63,7 +63,7 @@ Hiatal surfaces (in red) include downlap surfaces in marine areas, and erosional
 
 ## 2. Foreland basin with sinusoidal sea level and constant sediment supply
 
-This second example contrasts with the previous one, showing a foreland basin, which has the characteristic thickening of sediment towards the sediment source (left). Eustastic history is identical to the previous passive-margin simulation, but sediment is four times greater. If sediment was equal to the passive-margin case, the architecture would be strongly retrogradational, owing to trapping of sediment near the sediment source.
+This second example contrasts with the previous one, showing a foreland basin, which has the characteristic thickening of sediment towards the sediment source (left). Eustatic history is identical to the previous passive-margin simulation, but sediment is four times greater. If sediment was equal to the passive-margin case, the architecture would be strongly retrogradational, owing to trapping of sediment near the sediment source.
 
 ```{r foreland, eval=FALSE}
 geom <- geometry(fallLineY=150, shoreX=200, deltaWidth=100, deltaToeY=-100, 
@@ -237,7 +237,7 @@ finalVolume <- increaseFactor * constantVolume
 initialVolume <- rep(constantVolume, initialTimeSteps)
 ```
 
-Third, create a subsequene increase in sediment volume.
+Third, create a subsequent increase in sediment volume.
 
 ```{r twoPhaseSediment3, eval=FALSE}
 numTimeSteps <- length(sedi$timeSeries$timePoint)

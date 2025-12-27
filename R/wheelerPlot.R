@@ -1,6 +1,6 @@
 #' @title Wheeler Plot
 #'
-#' @description Plot of regions of sedimentation, non-deposition, and erosion throug time.
+#' @description Plot of regions of sedimentation, non-deposition, and erosion through time.
 #'
 #' @details Plot is a chronostratigraphic diagram, also called a Wheeler plot, showing times and locations non-marine deposition (green), marine deposition (tan), subaerial erosion (the hiatus, black), and sediment starvation (white). Also shown are sediments that have been erosionally removed (the degradational vacuity, gray), as well as the location of the shore (blue). The combined hiatus and degradational vacuity represent the lacuna of an unconformity.
 #'
