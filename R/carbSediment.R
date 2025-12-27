@@ -21,30 +21,30 @@
 
 carbSediment <- function(waterDepths, rates, lagTime=0, initialWaterDepth=0) {
 	if (min(waterDepths) > 0 | waterDepths[1] != 0) {
-		warning("Minimum (first) water depth must be 0.0", call.=FALSE)
+		warning('Minimum (first) water depth must be 0.0', call.=FALSE)
 	}
 	if (min(rates) > 0 | rates[1] != 0) {
-		warning("Minimum (first) rate must be 0.0", call.=FALSE)
+		warning('Minimum (first) rate must be 0.0', call.=FALSE)
 	}
 	if (!all(waterDepths >= 0))  {
-		warning("All water depths must be greater than or equal to zero", call.=FALSE)
+		warning('All water depths must be greater than or equal to zero', call.=FALSE)
 	}
 	if (! all(diff(waterDepths) > 0)) {
-		warning("Water depths must be increasing order", call.=FALSE)
+		warning('Water depths must be increasing order', call.=FALSE)
 	}
 	if (length(lagTime)>1) {
-		warning("lagTime must be a single numeric value", call.=FALSE)
+		warning('lagTime must be a single numeric value', call.=FALSE)
 	}
 	if (min(lagTime) < 0) {
-		warning("lagTime must be non-negative", call.=FALSE)
+		warning('lagTime must be non-negative', call.=FALSE)
 	}
 	if (length(initialWaterDepth)>1) {
-		warning("initialWaterDepth must be a single numeric value", call.=FALSE)
+		warning('initialWaterDepth must be a single numeric value', call.=FALSE)
 	}
 	productionCurve <- data.frame(waterDepth=waterDepths, rate=rates)
 	
 	carbSed <- list(lagTime=lagTime, initialWaterDepth=initialWaterDepth, productionCurve=productionCurve)
 	
-	class(carbSed) <- "carbSediment"
+	class(carbSed) <- 'carbSediment'
 	return(carbSed)
 }

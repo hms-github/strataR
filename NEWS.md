@@ -1,3 +1,7 @@
+# strataR 1.2.1
+
+* Fixed bug that prevented drawing siliciclastic columns.
+
 # strataR 1.2
 
 * Simulate stratigraphic columns in shallow-marine carbonates.

@@ -22,22 +22,12 @@
 carbThickness <- function(depth, timeStep, carbSed) {
 	carbProduction <- carbSed$productionCurve
 	rate <- 0
-# 	cat(paste("length of carb production:", nrow(carbProduction)))
 	if (all(depth < carbProduction$waterDepth)) {          # above sea level
 		rate <- carbProduction$rate[1]
-		# if (is.null(rate)) {
-# 			stop("Condition 1")
-# 		}
 	} else if (all(depth > carbProduction$waterDepth)) {   # very deep water
 		rate <- carbProduction$rate[length(carbProduction$rate)]
-		# if (is.null(rate)) {
-# 			stop("Condition 2")
-# 		}
 	} else if (any(depth == carbProduction$waterDepth)) {  # depth is at a node
 		rate <- carbProduction$rate[which(depth == carbProduction$waterDepth)]
-		# if (is.null(rate)) {
-# 			stop("Condition 3")
-# 		}
 	} else {                                               # depth is between two nodes
 		deepNode    <- max(which(depth >= carbProduction$waterDepth))
 		shallowNode <- min(which(depth <= carbProduction$waterDepth))
@@ -47,9 +37,6 @@ carbThickness <- function(depth, timeStep, carbSed) {
 		shallowRate <- carbProduction$rate[shallowNode]
 		position <- (depth - deepDepth) / (shallowDepth - deepDepth)
 		rate <- deepRate + position * (shallowRate - deepRate)
-		# if (is.null(rate)) {
-# 			stop("Condition 4")
-# 		}
 	}
 	thickness <- timeStep * rate
 	thickness
