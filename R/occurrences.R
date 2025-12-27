@@ -36,6 +36,10 @@
 #' plot(occu, col=coluValley, species=spec)
 #'
 occurrences <- function(column, species, sampleSpacing=0.5) {
+	if (class(species) != "species") {
+		stop("Occurrences must use species generated with the species() function.", call.=FALSE)
+	}
+	
 	numSpecies <- length(species$id)
 
 	maxLength <- 100000

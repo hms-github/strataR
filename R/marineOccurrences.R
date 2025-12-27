@@ -37,10 +37,13 @@
 #'
 marineOccurrences <- function(column, marineSpecies, sampleSpacing=0.5) {
 	# NOTE: because columns are in terms of waterDepth, anything that is below sea level will have a negative value, so must be converted to a positive value to convert to water depth	
-	numSpecies <- length(marineSpecies$id)
+	if (class(marineSpecies) != "marineSpecies") {
+		stop("Marine occurrences must be generated with marine species. You appear to be using species generated with species(), but you should have used marineSpecies().", call.=FALSE)
+	}
 	
+	numSpecies <- length(marineSpecies$id)
 	maxLength <- 100000
-	storage <- vector(mode='numeric', length=maxLength)
+	storage   <- vector(mode='numeric', length=maxLength)
 	age       <- storage
 	position  <- storage
 	speciesId <- storage
