@@ -1,3 +1,8 @@
+# strataR 1.2.2
+
+* Added checks to occurrences functions to verify that the correct type of species file is being used.
+* Minor bug fixes, fixed typos, etc.
+
 # strataR 1.2.1
 
 * Fixed bug that prevented drawing siliciclastic columns.
