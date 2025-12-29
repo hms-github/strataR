@@ -126,13 +126,15 @@ plot.column <- stratColumnPlot <- function(x, stratRange=c(floor(min(x$stratPosi
 	
 	# Siliciclastic stratigraphic	
 	# Facies widths
-	marineWidth <- 1.5
+	# marineWidth <- 1.5
 	floodplainWidth <- 1.5
 	channelWidth <- 2
 	sbChannelWidth <- 2.1
 	paleosolWidth <- floodplainWidth
 	unconformityWidth <- floodplainWidth
 	plotWidth <- channelWidth
+	shallowestMarineWidth <- floodplainWidth
+	deepestMarineWidth <- 0.5
 	
 	# Facies colors
 	marineColor <- 'tan'
@@ -160,7 +162,11 @@ plot.column <- stratColumnPlot <- function(x, stratRange=c(floor(min(x$stratPosi
 	# Draw marine
 	marine <- which(facies == 'marine')
 	if (length(marine) > 0) {
-		graphics::rect(rep(0, length(marine)), base[marine], rep(marineWidth, length(marine)), top[marine], col=marineColor, border=marineBorder)
+		depth <- -x$elevation[marine]
+		deepest <- max(depth)
+		shallowest <- min(depth)
+		marineWidth <- (depth - shallowest) / (deepest - shallowest) * (deepestMarineWidth - shallowestMarineWidth) + shallowestMarineWidth
+		graphics::rect(rep(0, length(marine)), base[marine], marineWidth, top[marine], col=marineColor, border=marineBorder)
 	}
 	
 	# Draw floodplain
