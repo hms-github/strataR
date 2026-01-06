@@ -1,3 +1,8 @@
+# strataR 1.2.3
+
+* Improved point size in carbAgeDepthPlot(), with option to adjust it.
+* Minor bug fixes
+
 # strataR 1.2.2
 
 * Added checks to occurrences functions to verify that the correct type of species file is being used.

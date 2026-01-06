@@ -37,7 +37,7 @@
 #'
 marineOccurrences <- function(column, marineSpecies, sampleSpacing=0.5) {
 	# NOTE: because columns are in terms of waterDepth, anything that is below sea level will have a negative value, so must be converted to a positive value to convert to water depth	
-	if (class(marineSpecies) != "marineSpecies") {
+	if (!("marineSpecies" %in% class(marineSpecies))) {
 		stop("Marine occurrences must be generated with marine species. You appear to be using species generated with species(), but you should have used marineSpecies().", call.=FALSE)
 	}
 	

@@ -364,7 +364,7 @@ text(1.5, 8, 'shape=100', col=wave4col)
 
 Manipulating `shape` has several uses. For example, if a classical sine wave is used for eustasy, nearly all of the strata accumulate during the TST and FSST, resulting in unusually short durations (and correspondingly thin deposits) for the HST and FSST. Setting shape to a value around 4 balances the time among the systems tracts. A sine wave that has been somewhat squared off can be used to produce a step-change in subsidence, sea level, or sediment supply. For example if the period is set to be twice the model run, it is possible to create an abrupt increase in sediment supply, subsidence, or sea level. This can allow you to isolate, for example, the effects of sea level rise, without it constantly changing.
 
-The `symmetry` argument is used to create sine waves that vary in symmetry; a symmetrical (clasical) sine wave is the default. The argument varies from 0.0, where the fall is rapid and the rise is gentle, to 1.0, where the fall is gentle and the rise is rapid. A value of 0.5 corresponds to a symmetrical sine wave.
+The `symmetry` argument is used to create sine waves that vary in symmetry; a symmetrical (classical) sine wave is the default. The argument varies from 0.0, where the fall is rapid and the rise is gentle, to 1.0, where the fall is gentle and the rise is rapid. A value of 0.5 corresponds to a symmetrical sine wave.
 
 ```{r symmetryArgument, eval=FALSE}
 flexSin(timePoints, period=1, amplitude=10, shape=4)

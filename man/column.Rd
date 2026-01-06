@@ -55,7 +55,7 @@ A column object consists of a data frame with five columns; each row corresponds
 Create a stratigraphic column from a basin.
 }
 \details{
-Create a stratigraphic column from anywhere in the basin by specifying the location of the column (the distance from the left edge of the basin) and by specifying whether the column is located along a valley or an interfluve. The probability of a channel occurring in any time step and the depth of the channel control control the relative proportions of chanel and floodplain facies.
+Create a stratigraphic column from anywhere in the basin by specifying the location of the column (the distance from the left edge of the basin) and by specifying whether the column is located along a valley or an interfluve. The probability of a channel occurring in any time step and the depth of the channel control control the relative proportions of channel and floodplain facies.
 }
 \examples{
 data(sedBasin)

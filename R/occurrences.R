@@ -36,7 +36,7 @@
 #' plot(occu, col=coluValley, species=spec)
 #'
 occurrences <- function(column, species, sampleSpacing=0.5) {
-	if (class(species) != "species") {
+	if (!("species" %in% class(species))) {
 		stop("Occurrences must use species generated with the species() function.", call.=FALSE)
 	}
 	

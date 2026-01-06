@@ -2,7 +2,7 @@
 #'
 #' @description Create a stratigraphic column from a basin.
 #'
-#' @details Create a stratigraphic column from anywhere in the basin by specifying the location of the column (the distance from the left edge of the basin) and by specifying whether the column is located along a valley or an interfluve. The probability of a channel occurring in any time step and the depth of the channel control control the relative proportions of chanel and floodplain facies.
+#' @details Create a stratigraphic column from anywhere in the basin by specifying the location of the column (the distance from the left edge of the basin) and by specifying whether the column is located along a valley or an interfluve. The probability of a channel occurring in any time step and the depth of the channel control control the relative proportions of channel and floodplain facies.
 #'
 #' @param basin an object of class [`basin`].
 #' @param locationKm a number indicating where in the basin the column will be located,  
@@ -110,7 +110,7 @@ plot.column <- stratColumnPlot <- function(x, stratRange=c(floor(min(x$stratPosi
 		depth <- -x$elevation
 		submerged <- depth > 0
 		hiatus <- depth < 0
-		subaerial <- -5  # used to set left edge of plot range
+		subaerial <- -2  # used to set left edge of plot range
 		
 		plot(1, 1, type='n', xlim=c(subaerial, max(depth)), ylim=stratRange, bty='n',
 			las=1, xlab='Water Depth (m)', ylab='Stratigraphic Position (m)',  ...)
