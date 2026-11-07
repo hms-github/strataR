@@ -60,7 +60,7 @@ sediment <- function(geometry, startingVolume=60, netIncrease=0, period=1, ampli
 #' @export
 
 plot.sediment <- function(x, ...) {
-	plot(x$timeSeries$timePoint, x$timeSeries$volume, type='l', las=1, xlab="model time (m.y.)", ylab="sediment flux", ...)
+	plot(x$timeSeries$timePoint, x$timeSeries$volume, type='l', las=1, xlab="Model time (m.y.)", ylab="Sediment flux", ...)
 }
 
 #' 

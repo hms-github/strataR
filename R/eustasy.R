@@ -53,7 +53,7 @@ eustasy <- function(geometry, period=1, amplitude=0, symmetry=0.5, phase=c('risi
 #' @export
 
 plot.eustasy <- function(x, ...) {
-	plot(x$timeSeries$timePoint, x$timeSeries$seaLevel, type='l', las=1, xlab="model time (m.y.)", ylab="sea level (m)", ...)
+	plot(x$timeSeries$timePoint, x$timeSeries$seaLevel, type='l', las=1, xlab="Model time (m.y.)", ylab="Sea level (m)", ...)
 }
 
 #' 

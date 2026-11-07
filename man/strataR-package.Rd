@@ -13,5 +13,10 @@ strataR simulates the sedimentary fill of basins, based on inputs of tectonic su
 \author{
 \strong{Maintainer}: Steven Holland \email{stratum@uga.edu} (\href{https://orcid.org/0000-0002-4527-9370}{ORCID})
 
+Authors:
+\itemize{
+  \item Steven Holland \email{stratum@uga.edu} (\href{https://orcid.org/0000-0002-4527-9370}{ORCID})
+}
+
 }
 \keyword{internal}

@@ -92,9 +92,9 @@ plot.subsidence <- function(x, geometry, type=c('lines', 'filled'), ...) {
 	xaxis <- (0:(numPositions-1))*geometry$deltaX
 	yaxis <- (0:(numTimeSteps-1))*geometry$timeStep
 	if (type=='lines') {
-		graphics::contour(xaxis, yaxis, -t(x$rates), main='subsidence rates (m / m.y.)', xlab='position (km)', ylab='model time (m.y.)', las=1)
+		graphics::contour(xaxis, yaxis, -t(x$rates), main='Subsidence rates (m / m.y.)', xlab='Position (km)', ylab='Model time (m.y.)', las=1)
 	} else if (type=='filled') {
-		graphics::filled.contour(xaxis, yaxis, -t(x$rates), main='subsidence rates (m / m.y.)', xlab='position (km)', ylab='model time (m.y.)', las=1)
+		graphics::filled.contour(xaxis, yaxis, -t(x$rates), main='Subsidence rates (m / m.y.)', xlab='Position (km)', ylab='Model time (m.y.)', las=1)
 	} else {
 		warning("Invalid type, must be 'lines' or 'filled'", call.=FALSE, immediate.=TRUE)
 	}

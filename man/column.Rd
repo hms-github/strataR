@@ -32,9 +32,9 @@ specified as the distance (in km) from the left edge of the basin.}
 \item{setting}{a string, either "valley" or "interfluve", specifying where the column
 will be located.}
 
-\item{pChannel}{a number from 0 to 1 specifying the probability that a channel will be
-present at any time step. Floodplain facies are deposited if a channel is not
-present, so 1-pChannel can be considered the probability of floodplain facies.}
+\item{pChannel}{a vector of two numbers, each from 0 to 1. The first values specifies
+the probability of a transition from floodplain to a channel, and the second is the
+the probability from transition from a channel to a channel.}
 
 \item{channelDepth}{a number specifying the depth of a channel, in m.}
 

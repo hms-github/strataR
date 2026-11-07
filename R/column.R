@@ -9,9 +9,9 @@
 #'   specified as the distance (in km) from the left edge of the basin.
 #' @param setting a string, either "valley" or "interfluve", specifying where the column  
 #'   will be located.
-#' @param pChannel a number from 0 to 1 specifying the probability that a channel will be  
-#'   present at any time step. Floodplain facies are deposited if a channel is not  
-#'   present, so 1-pChannel can be considered the probability of floodplain facies.
+#' @param pChannel a vector of two numbers, each from 0 to 1. The first values specifies
+#'   the probability of a transition from floodplain to a channel, and the second is the
+#'   the probability from transition from a channel to a channel.
 #' @param channelDepth a number specifying the depth of a channel, in m.
 #' @param x,object an object of class `column`.
 #' @param stratRange a vector specifying (in m) the range of y-values on the column plot.
@@ -39,22 +39,38 @@ column <- function(basin, locationKm, setting=c('valley', 'interfluve'), pChanne
 	     warning("Setting must be 'valley' or 'interfluve'")
 	}
 	
+	# for backwards compatibility, as pChannel was formerly a single value
+	if (length(pChannel) == 1) {
+		pChannel <- c(pChannel, pChannel)
+	}
+	
 	elevation <- elevationAtLocation(basin, locationKm, setting)             # m
 	sedimentation <- sedimentationAtLocation(basin, locationKm, setting)     # m
 	timeStep <- basin$parameters$timeStep                                    # m.y.
 	
 	modelTime     <- basin$timePoints
-	thickness     <- rep( 0, length(modelTime))
-	stratPosition <- rep( 0, length(modelTime))
-	facies        <- rep('', length(modelTime))
-	column <- data.frame(sedimentation, thickness, stratPosition, facies)
-		
+	numTimeSteps  <- length(modelTime)
+	column <- data.frame(sedimentation, 
+						 thickness =     rep( 0, numTimeSteps), 
+						 stratPosition = rep( 0, numTimeSteps), 
+						 facies =        rep('', numTimeSteps) )
+	
 	# Build column
-	for (i in 2:length(modelTime)) { # skip the first time step, the base of column
+	for (i in 2:numTimeSteps) { # skip the first time step, the base of column
 		if (sedimentation[i] > 0) {					# accumulation
+		
+			probChannel <- 0.2  # default
+			if (column$facies[i-1] == "floodplain") {
+				probChannel <- pChannel[1]
+			} else if (column$facies[i-1] == "channel") {
+				probChannel <- pChannel[2]
+			} else {
+				probChannel <- pChannel[1]
+			}
+			
 			if (elevation[i] < 0) {							# marine
 				column <- depositMarine(column=column, timeStep=i)
-			} else if (stats::runif(1) > pChannel) {				# floodplain
+			} else if (stats::runif(1) > probChannel) {				# floodplain
 				column <- depositFloodplain(column, i)
 			} else {										# channel
 				if (channelDepth <= sedimentation[i]) {				# aggrading

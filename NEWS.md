@@ -1,3 +1,8 @@
+# strataR 1.2.4
+
+* column() now allows for different probabilities of depositing a channel, depending on whether previous facies is floodplain or channel
+* corrected labeling of various plot axes
+
 # strataR 1.2.3
 
 * Improved point size in carbAgeDepthPlot(), with option to adjust it.

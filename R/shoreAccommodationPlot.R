@@ -2,7 +2,7 @@
 #'
 #' @description Plot of the rate of accommodation at the shoreline through time.
 #'
-#' @details Shows the rate of accommodation (subsidence plus sea-level rise) at the shoreline through time. This will vary as rates of accommodation and eustasy vary through time, as well as with lateral shifts in the shoreline.
+#' @details Shows the rate of accommodation (subsidence plus sea-level rise) at the shoreline through time, as a solid line. This will vary as rates of accommodation and eustasy vary through time, as well as with lateral shifts in the shoreline. A gray dashed line shows the subsidence rates at the shoreline through time.
 #'
 #' @param basin an object of class [`basin`].
 #'

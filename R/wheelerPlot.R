@@ -38,7 +38,7 @@ wheelerPlot <- function(basin, setting=c('valley', 'interfluve'), xlim=NULL, yli
 	}
 
 	# Start the plot
-	plot(1, 1, type='n', xlim=xlim, ylim=ylim, las=1, xlab='Distance (km)', ylab='model time (m.y.)', ...)
+	plot(1, 1, type='n', xlim=xlim, ylim=ylim, las=1, xlab='Distance (km)', ylab='Model time (m.y.)', ...)
 
 	# Marine sediments 
 	# These are shown everywhere, will be masked by nonmarine, unconformity, and starvation
