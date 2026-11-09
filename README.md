@@ -9,10 +9,10 @@ An R package for simulating the nonmarine stratigraphic and fossil record
 Install the devtools R package, if it is not already installed. You can install the dev version of strataR from Github with: 
 
 ``` r
-pak::pak("hms-github/strataR", build_vignettes=TRUE)
+devtools::install_github("hms-github/strataR", build_vignettes=TRUE, force=TRUE)
 ```
 
-Building the vignettes will take a few minutes. I recommend installing strataR through RStudio rather than R.app, as the latter approach has failed in some cases. The problem is that pandoc is needed to generate the vignettes, but it may not be installed or R.app does not have the path to pandoc. RStudio automatically handles these issues. Alternatively, you can run the following in R.app, but it will not generate the vignettes.
+Building the vignettes will take a few minutes, and you are likely to get a warning about the install_github command being deprecated. I recommend installing strataR through RStudio rather than R.app, as the latter approach has failed in some cases. The problem is that pandoc is needed to generate the vignettes, but it may not be installed or R.app does not have the path to pandoc. RStudio automatically handles these issues. Alternatively, you can run the following in R.app to avoid the deprecation warning, but it will not generate the vignettes.
 
 ``` r
 pak::pak("hms-github/strataR")
